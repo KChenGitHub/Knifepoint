@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyBase : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private int speed;
+    [SerializeField] protected int speed;
     [SerializeField] private NavMeshAgent navAgent;
     private float stoppingDist = 2.0f;
     private Vector3 radarDestination;
@@ -18,13 +18,15 @@ public class EnemyBase : MonoBehaviour
 
     [Header("Radar")]
     //public bool isRadarClockwise = true;
+    public GameObject radarObject;
     public float radarAngle;
     private const float RADARRANGE = 15.0f;
     private const float RADARSPEED = 700.0f;
     //private const float MAXRADARANGLE = 70.0f; //Used if we want a more narrow radar angle
 
     [Header("Attacks")]
-    [SerializeField] private float attackRate;
+    protected float attackRate;
+    protected float attackRange;
     public GameObject targetObject;
     public bool isTargetInRange = false;
     public enum enemyType { racyast, projectile }
@@ -45,7 +47,11 @@ public class EnemyBase : MonoBehaviour
         //Radar
         Radar();
         Navigation();
- 
+    }
+
+    virtual public void FireWeapon()
+    {
+        //Overridden by child classes
     }
 
     /// <summary>
@@ -54,6 +60,27 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Navigation()
     {
+        if (radarObject && radarObject.CompareTag("target"))
+        {
+            navAgent.SetDestination(radarObject.transform.position);
+            //IF PLAYER
+            targetObject = radarObject;
+        }
+
+        if (IsTargetInRange() && !hasWaited) //HASWAITED STARTS FALSE
+        {
+            if (!isWaiting)
+            {
+                navAgent.isStopped = true;
+                isWaiting = true;
+                StartCoroutine(WaitAndFireWeapon());
+            }
+            return;
+        }
+        else if (IsTargetInRange())
+        {
+            hasWaited = false;
+        }
 
         //Checks if the enemy is close to its destination
         if (navAgent.remainingDistance <= stoppingDist)
@@ -83,6 +110,19 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
+    /// Helper method returns whether the target object is within attack range.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsTargetInRange()
+    {
+        if (targetObject && Vector3.Distance(transform.position, targetObject.transform.position) < attackRange)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Coroutine runs a short timer before calculating a new path for the enemy
     /// </summary>
     /// <returns></returns>
@@ -97,6 +137,19 @@ public class EnemyBase : MonoBehaviour
         waitTimer = 0.0f; //Reset the timer to 0
         isWaiting = false;
         hasWaited = true;
+    }
+
+    /// <summary>
+    /// Waits attackRate seconds and then fires the weapon. I'm reusing the timer variables for the wait.
+    /// As long as the variables aren't changed the movement and attack logic are paused.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitAndFireWeapon()
+    {
+        yield return new WaitForSeconds(attackRate);
+        hasWaited = true;
+        isWaiting = false;
+        FireWeapon();
     }
 
     /// <summary>
@@ -122,6 +175,7 @@ public class EnemyBase : MonoBehaviour
         Debug.DrawRay(heightAdjust, otherPos, Color.green);
         if (Physics.Raycast(heightAdjust, otherPos, out hit, Mathf.Infinity))
         {
+            radarObject = hit.collider.gameObject;
             return hit.collider.gameObject;
         }
         else
@@ -129,7 +183,7 @@ public class EnemyBase : MonoBehaviour
             return null;
         }
 
-
     }
+
 
 }
