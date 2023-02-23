@@ -7,7 +7,7 @@ public class EnemyBase : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] protected int speed;
-    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] protected NavMeshAgent navAgent;
     private float stoppingDist = 2.0f;
     private Vector3 radarDestination;
     private NavMeshPath currPath;
@@ -20,17 +20,19 @@ public class EnemyBase : MonoBehaviour
     //public bool isRadarClockwise = true;
     public GameObject radarObject;
     public float radarAngle;
-    private const float RADARRANGE = 15.0f;
+    private const float RADARRANGE = 20.0f;
     private const float RADARSPEED = 700.0f;
     //private const float MAXRADARANGLE = 70.0f; //Used if we want a more narrow radar angle
 
     [Header("Attacks")]
-    protected float attackRate;
-    protected float attackRange;
-    public GameObject targetObject;
-    public bool isTargetInRange = false;
+    [SerializeField] protected float attackRate;
+    [SerializeField] protected float attackRange;
+    [SerializeField] protected GameObject targetObject;
+    [SerializeField] protected GameObject attackPoint;
+    //public bool isTargetInRange = false;
     public enum enemyType { racyast, projectile }
     public enemyType type;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -49,9 +51,10 @@ public class EnemyBase : MonoBehaviour
         Navigation();
     }
 
-    virtual public void FireWeapon()
+    virtual public IEnumerator FireWeapon()
     {
         //Overridden by child classes
+        yield return null;
     }
 
     /// <summary>
@@ -67,19 +70,17 @@ public class EnemyBase : MonoBehaviour
             targetObject = radarObject;
         }
 
-        if (IsTargetInRange() && !hasWaited) //HASWAITED STARTS FALSE
+        if (IsTargetInRange())
         {
-            if (!isWaiting)
+            navAgent.speed = 0;
+            if (!isWaiting && IsFacingTarget())
             {
-                navAgent.isStopped = true;
+                
                 isWaiting = true;
-                StartCoroutine(WaitAndFireWeapon());
-            }
+                hasWaited = false;
+                StartCoroutine(FireWeapon());
+            } //if isWaiting then the enemy should be in the fireweapon coroutine
             return;
-        }
-        else if (IsTargetInRange())
-        {
-            hasWaited = false;
         }
 
         //Checks if the enemy is close to its destination
@@ -99,13 +100,13 @@ public class EnemyBase : MonoBehaviour
                 }
                 return;
             }
-            
-            if (navAgent.CalculatePath(radarDestination, currPath))
-            {
-                
-                navAgent.SetPath(currPath);
-                hasWaited = false;
-            }
+        }
+
+        //Calculate a new path if we haven't exited the function yet
+        if (navAgent.CalculatePath(radarDestination, currPath) && hasWaited)
+        {
+            navAgent.SetPath(currPath);
+            hasWaited = false;
         }
     }
 
@@ -123,34 +124,44 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
+    /// Uses the dot product along with the targetObject to see if the enemy is
+    /// "facing" the target i.e. target is within 60 degrees of our forward face
+    /// </summary>
+    /// <returns></returns>
+    private bool IsFacingTarget()
+    {
+        if (targetObject && Mathf.Abs(Vector3.Dot(transform.position.normalized, targetObject.transform.position.normalized)) > 0.866f) 
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Coroutine runs a short timer before calculating a new path for the enemy
     /// </summary>
     /// <returns></returns>
     private IEnumerator WaitForNewDestination()
     {
-        waitTime = Random.Range(0, 5);
-        while (waitTimer <= waitTime)
-        {
-            waitTimer += Time.deltaTime;
-            yield return null;
-        }
+        int waitTime = Random.Range(0, 5);
+        yield return new WaitForSeconds(waitTime);
         waitTimer = 0.0f; //Reset the timer to 0
         isWaiting = false;
         hasWaited = true;
     }
 
-    /// <summary>
-    /// Waits attackRate seconds and then fires the weapon. I'm reusing the timer variables for the wait.
-    /// As long as the variables aren't changed the movement and attack logic are paused.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator WaitAndFireWeapon()
-    {
-        yield return new WaitForSeconds(attackRate);
-        hasWaited = true;
-        isWaiting = false;
-        FireWeapon();
-    }
+    ///// <summary>
+    ///// Waits attackRate seconds and then fires the weapon. I'm reusing the timer variables for the wait.
+    ///// As long as the variables aren't changed the movement and attack logic are paused.
+    ///// </summary>
+    ///// <returns></returns>
+    //private IEnumerator WaitAndFireWeapon()
+    //{
+    //    yield return new WaitForSeconds(attackRate);
+    //    hasWaited = true;
+    //    isWaiting = false;
+    //    FireWeapon();
+    //}
 
     /// <summary>
     /// Sends out a raycast that moves in a circle around the enemy
@@ -167,13 +178,13 @@ public class EnemyBase : MonoBehaviour
 
         //Raycast
         RaycastHit hit;
-        Vector3 heightAdjust = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z); //Add 1 to not be on the floor
+        //Vector3 heightAdjust = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z); //Add 1 to not be on the floor
         Vector3 otherPos = Quaternion.Euler(0f, radarAngle, 0f) * transform.TransformDirection(Vector3.forward);
         otherPos = otherPos.normalized * RADARRANGE;
         radarDestination = otherPos; //Used for navigation
 
-        Debug.DrawRay(heightAdjust, otherPos, Color.green);
-        if (Physics.Raycast(heightAdjust, otherPos, out hit, Mathf.Infinity))
+        Debug.DrawRay(transform.position, otherPos, Color.green);
+        if (Physics.Raycast(transform.position, otherPos, out hit, RADARRANGE))
         {
             radarObject = hit.collider.gameObject;
             return hit.collider.gameObject;
