@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [Header("Materials")]
+    [SerializeField] private Material targetMat;
+    [SerializeField] private MeshRenderer meshRend;
+
     [Header("Movement")]
     [SerializeField] protected int speed;
     [SerializeField] protected NavMeshAgent navAgent;
@@ -196,5 +200,13 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Changes the material to the target colors.
+    /// This is called from the main at start.
+    /// </summary>
+    public void ChangeToTargetMat()
+    {
+        meshRend.material = targetMat;
+    }
 
 }
