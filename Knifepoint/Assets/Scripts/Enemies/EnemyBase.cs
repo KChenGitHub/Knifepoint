@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [Header("Health")]
+    public int HP = 2;
+    public bool hasArmor = false;
+
     [Header("Materials")]
     [SerializeField] private Material targetMat;
     [SerializeField] private MeshRenderer meshRend;
@@ -207,6 +211,30 @@ public class EnemyBase : MonoBehaviour
     public void ChangeToTargetMat()
     {
         meshRend.material = targetMat;
+    }
+
+    /// <summary>
+    /// Reduces enemy HP and destroys it if HP reaches 0.
+    /// Also accounts for enemy armor.
+    /// </summary>
+    /// <param name="damage">Damage is defaulted to 2 for the knife. When using the first, we put 1 for this value.
+    /// The 1 for the fist includes that the fist cannot damage enemy armor.</param>
+    public void TakeDamage(int damage = 2)
+    {
+        if (!hasArmor)
+        {
+            HP -= damage;
+        }
+        else if (damage > 1)
+        {
+            hasArmor = false;
+        }
+
+        if (HP <= 0)
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
 }
