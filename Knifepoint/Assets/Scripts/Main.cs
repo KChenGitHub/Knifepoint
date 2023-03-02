@@ -19,6 +19,10 @@ public class Main : MonoBehaviour
     {
         CreateEnemyTargetList();
         ChangeTargetEnemyColors();
+
+        //Lock the Cursor for FPS rotation
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
