@@ -18,11 +18,11 @@ public class Hazards : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.GetComponent<FPSController>() != null)
+        if(collision.tag == "Player")
         {
-            Debug.Log("Player took Damage");
+            Debug.Log("Player took Damage.");
             FPSController player = collision.gameObject.GetComponent<FPSController>();
 
             player.TakeDamage(hazardDamage);

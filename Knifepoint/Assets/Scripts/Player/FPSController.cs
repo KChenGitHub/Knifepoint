@@ -75,6 +75,7 @@ public class FPSController : MonoBehaviour
 
     public void TakeDamage(int hazardDamage)
     {
+        Debug.Log("Player health at" + health);
         health -= hazardDamage;
     }
 }
