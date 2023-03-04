@@ -18,6 +18,9 @@ public class FPSController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
+    [Header("Health")]
+    public int health;
+
     [HideInInspector]
     public bool canMove = true;
 
@@ -68,5 +71,10 @@ public class FPSController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+
+    public void TakeDamage(int hazardDamage)
+    {
+        health -= hazardDamage;
     }
 }
