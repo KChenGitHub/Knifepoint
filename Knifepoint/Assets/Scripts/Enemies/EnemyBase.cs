@@ -17,6 +17,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected NavMeshAgent navAgent;
     private float stoppingDist = 2.0f;
+    private float rotationSpeed = 15f;
     private Vector3 radarDestination;
     private NavMeshPath currPath;
     public float waitTimer;
@@ -71,10 +72,9 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Navigation()
     {
-        if (radarObject && radarObject.CompareTag("target"))
+        if (radarObject && radarObject.TryGetComponent<Player>(out Player player))
         {
             navAgent.SetDestination(radarObject.transform.position);
-            //IF PLAYER
             targetObject = radarObject;
         }
 
@@ -88,9 +88,14 @@ public class EnemyBase : MonoBehaviour
                 hasWaited = false;
                 StartCoroutine(FireWeapon());
             } //if isWaiting then the enemy should be in the fireweapon coroutine
+            else if (!isWaiting)
+            {
+                RotateTowards(targetObject.transform);
+            }
             return;
         }
 
+        navAgent.speed = speed; //Reset speed if the enemy isn't close to its target
         //Checks if the enemy is close to its destination
         if (navAgent.remainingDistance <= stoppingDist)
         {
@@ -119,6 +124,17 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
+    /// Shamelessly stolen from https://answers.unity.com/questions/540120/how-do-you-update-navmesh-rotation-after-stopping.html
+    /// </summary>
+    /// <param name="target"></param>
+    private void RotateTowards(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));    // flattens the vector3
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+    }
+
+    /// <summary>
     /// Helper method returns whether the target object is within attack range.
     /// </summary>
     /// <returns></returns>
@@ -133,12 +149,12 @@ public class EnemyBase : MonoBehaviour
 
     /// <summary>
     /// Uses the dot product along with the targetObject to see if the enemy is
-    /// "facing" the target i.e. target is within 60 degrees of our forward face
+    /// "facing" the target (dot product = 1 when facing target)
     /// </summary>
     /// <returns></returns>
     private bool IsFacingTarget()
     {
-        if (targetObject && Mathf.Abs(Vector3.Dot(transform.position.normalized, targetObject.transform.position.normalized)) > 0.866f) 
+        if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= .988f)
         {
             return true;
         }

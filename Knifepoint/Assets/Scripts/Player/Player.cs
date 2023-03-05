@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Health")]
+    [SerializeField] private int maxHP;
+    [SerializeField] private int currHP; //set from the editor
+
     [Header("Knife Throwing")]
     [SerializeField] public bool canThrowKnife;
     [SerializeField] private float throwForce;
 
     [Header("Objects")]
     [SerializeField] private FPSController FPSController;
+    [SerializeField] private GameObject playerHand; //The arm/hand model
     [SerializeField] private GameObject handKnife; //The knife attached to the hand model
     [SerializeField] private GameObject throwKnife; //Knife prefab for throwing
     [SerializeField] private GameObject knifeThrowPoint;
+    
 
     
 
@@ -36,6 +42,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instances the throw knife and hides the hand knife
+    /// </summary>
     private void ThrowKnife()
     {
         if (canThrowKnife)
@@ -56,5 +65,42 @@ public class Player : MonoBehaviour
     {
         canThrowKnife = true;
         handKnife.SetActive(true);
+    }
+
+    /// <summary>
+    /// Reduces player HP by damageAmount
+    /// </summary>
+    /// <param name="damageAmount">The damage value that the player loses from their HP</param>
+    public void TakeDamage(int damageAmount)
+    {
+        Debug.Log("Player health at " + currHP);
+        currHP -= damageAmount;
+
+        if (currHP <= 0)
+        {
+            Time.timeScale = 0f;
+            handKnife.SetActive(false);
+            playerHand.SetActive(false);
+            Debug.LogWarning("Game Over!");
+        }
+    }
+
+    /// <summary>
+    /// Increases the  player health by healthAmount if the player is not at full health
+    /// </summary>
+    /// <param name="healthAmount">the amount of health to increase by</param>
+    public void GainHealth(int healthAmount)
+    {
+        currHP = currHP >= maxHP ? maxHP : currHP + healthAmount;
+    }
+
+    /// <summary>
+    /// Used by the HP incresase upgrade item
+    /// </summary>
+    /// <param name="healthAmount">The amount the max HP gets increased to</param>
+    private void increaseHPMax(int healthAmount)
+    {
+        maxHP = healthAmount;
+        currHP = healthAmount;
     }
 }

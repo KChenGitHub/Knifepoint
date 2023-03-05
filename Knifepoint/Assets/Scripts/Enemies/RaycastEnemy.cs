@@ -17,7 +17,7 @@ public class RaycastEnemy : EnemyBase
     public override IEnumerator FireWeapon()
     {
         laserRend.enabled = true;
-        Vector3 firePoint = targetObject.transform.position;
+        Vector3 firePoint = GetAttackPoint(); //targetObject.transform.position;
         //Raycasts use DIRECTION and not POSITION so we need to calculate the
         //direction between the target position and the attackPoint
         Vector3 fireDir = firePoint - attackPoint.transform.position;
@@ -37,16 +37,28 @@ public class RaycastEnemy : EnemyBase
         laserRend.enabled = false;
         waitTimer = 0.0f;
         isWaiting = false;
-        Debug.Log("Firing Weapon!");
         //Raycast
         RaycastHit hit;
         if (Physics.Raycast(attackPoint.transform.position, fireDir, out hit, attackRange))
         {
-            hit.collider.gameObject.SetActive(false);
             targetObject = null;
             radarObject = null;
             hasWaited = true;
-            navAgent.speed = speed;
+            //hit player
+            if (hit.collider.gameObject.TryGetComponent<Player>(out Player player))
+            {
+                player.TakeDamage(1);
+            }
+
         }
+
+    }
+
+    //I am about to destroy the FUCK out of physics, here we go
+    private Vector3 GetAttackPoint()
+    {
+        var dist = Mathf.Sqrt(attackRange);
+        var direction = (targetObject.transform.position - attackPoint.transform.position).normalized * Mathf.Sqrt(attackRange);
+        return attackPoint.transform.position + direction * dist;
     }
 }

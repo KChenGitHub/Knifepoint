@@ -27,10 +27,13 @@ public class Knife : MonoBehaviour
     /// <returns></returns>
     private IEnumerator WaitAfterThrow()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         checkingForPlayer = true;
     }
 
+    /// <summary>
+    /// Resets the player's knife throw if they're close enough to pick up the knife
+    /// </summary>
     private void PlayerCheck()
     {
         if (checkingForPlayer && Vector3.Distance(transform.position, player.gameObject.transform.position) < collectDistance)
@@ -40,13 +43,18 @@ public class Knife : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         //Will add the same for projectile enemies layer
-        if (collision.gameObject.TryGetComponent<RaycastEnemy>(out RaycastEnemy enemy))
+        if (other.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
             enemy.TakeDamage();
         }
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }
