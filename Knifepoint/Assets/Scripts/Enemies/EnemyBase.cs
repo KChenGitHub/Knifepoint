@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
+    public Main main;
+    public bool isTarget = false;
+    
     [Header("Health")]
     public int HP = 2;
     public bool hasArmor = false;
@@ -60,6 +63,26 @@ public class EnemyBase : MonoBehaviour
         Navigation();
     }
 
+    #region References and Materials
+    /// <summary>
+    /// Changes the material to the target colors. This is called from the main at start.
+    /// </summary>
+    public void ChangeToTargetMat()
+    {
+        meshRend.material = targetMat;
+    }
+
+    /// <summary>
+    /// Gives the enemy script a reference to the main script. This is called from the main at start.
+    /// </summary>
+    /// <param name="mainRef"></param>
+    public void SetMain(Main mainRef)
+    {
+        main = mainRef;
+    }
+    #endregion
+
+    #region Movement and Targeting
     virtual public IEnumerator FireWeapon()
     {
         //Overridden by child classes
@@ -174,19 +197,6 @@ public class EnemyBase : MonoBehaviour
         hasWaited = true;
     }
 
-    ///// <summary>
-    ///// Waits attackRate seconds and then fires the weapon. I'm reusing the timer variables for the wait.
-    ///// As long as the variables aren't changed the movement and attack logic are paused.
-    ///// </summary>
-    ///// <returns></returns>
-    //private IEnumerator WaitAndFireWeapon()
-    //{
-    //    yield return new WaitForSeconds(attackRate);
-    //    hasWaited = true;
-    //    isWaiting = false;
-    //    FireWeapon();
-    //}
-
     /// <summary>
     /// Sends out a raycast that moves in a circle around the enemy
     /// When the raycast collides with certain objects we do stuff
@@ -219,16 +229,9 @@ public class EnemyBase : MonoBehaviour
         }
 
     }
+    #endregion
 
-    /// <summary>
-    /// Changes the material to the target colors.
-    /// This is called from the main at start.
-    /// </summary>
-    public void ChangeToTargetMat()
-    {
-        meshRend.material = targetMat;
-    }
-
+    #region HP and Armor
     /// <summary>
     /// Reduces enemy HP and destroys it if HP reaches 0.
     /// Also accounts for enemy armor.
@@ -248,9 +251,13 @@ public class EnemyBase : MonoBehaviour
 
         if (HP <= 0)
         {
+            if (isTarget)
+            {
+                main.RemoveEnemyFromTargetList(this);
+            }
             Destroy(gameObject);
         }
         
     }
-
+    #endregion
 }

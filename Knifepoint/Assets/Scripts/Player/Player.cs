@@ -13,15 +13,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float throwForce;
 
     [Header("Objects")]
+    private Main main;
     [SerializeField] private FPSController FPSController;
     [SerializeField] private GameObject playerHand; //The arm/hand model
     [SerializeField] private GameObject handKnife; //The knife attached to the hand model
     [SerializeField] private GameObject throwKnife; //Knife prefab for throwing
     [SerializeField] private GameObject knifeThrowPoint;
-    
 
-    
-
+    #region Start and Controls
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +41,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetMain(Main mainRef)
+    {
+        main = mainRef;
+    }
+    #endregion
+
+    #region Attacks
     /// <summary>
     /// Instances the throw knife and hides the hand knife
     /// </summary>
@@ -67,6 +73,9 @@ public class Player : MonoBehaviour
         handKnife.SetActive(true);
     }
 
+    #endregion
+
+    #region Health and Damage
     /// <summary>
     /// Reduces player HP by damageAmount
     /// </summary>
@@ -78,10 +87,9 @@ public class Player : MonoBehaviour
 
         if (currHP <= 0)
         {
-            Time.timeScale = 0f;
             handKnife.SetActive(false);
             playerHand.SetActive(false);
-            Debug.LogWarning("Game Over!");
+            main.EndGame();
         }
     }
 
@@ -103,4 +111,5 @@ public class Player : MonoBehaviour
         maxHP = healthAmount;
         currHP = healthAmount;
     }
+    #endregion
 }

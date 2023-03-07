@@ -14,12 +14,6 @@ public class Hazards : MonoBehaviour
         damageTimer = timeBetweenDamageTicks; //Do this so that the player instantly takes damage on contact with the hazard
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Called as long as the player is touching a hazard to periodically reduce their HP
     /// </summary>

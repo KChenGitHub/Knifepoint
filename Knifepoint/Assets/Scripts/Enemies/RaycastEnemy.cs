@@ -6,9 +6,9 @@ public class RaycastEnemy : EnemyBase
 {
     public RaycastEnemy()
     {
-        speed = 6;
-        attackRate = 1.5f;
-        attackRange = 10f;
+        //speed = 6;
+        //attackRate = 1.5f;
+        //attackRange = 10f;
     }
 
     [Header("Raycast")]

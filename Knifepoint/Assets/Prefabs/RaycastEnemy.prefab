@@ -174,7 +174,7 @@ MonoBehaviour:
   hasArmor: 0
   targetMat: {fileID: 2100000, guid: 913cf1f9fabf95a4094c0093d2bbc0b3, type: 2}
   meshRend: {fileID: 5581670943567012749}
-  speed: 5
+  speed: 6
   navAgent: {fileID: 5581670941640546957}
   waitTimer: 0
   waitTime: 0

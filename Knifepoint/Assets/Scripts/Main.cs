@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Main : MonoBehaviour
 {
+    #region Variables
+    [Header("Player")]
+    [SerializeField] private Player player;
+
     [Header("Enemies")]
     /// <summary>
     /// List of enemies in the level that must be defeated to complete the game
@@ -12,11 +17,20 @@ public class Main : MonoBehaviour
     /// <summary>
     /// Empty GameObject in the level that all enemies are children of
     /// </summary>
-    public GameObject enemyHolder; 
+    public GameObject enemyHolder;
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI endGameText;
+    [SerializeField] private TextMeshProUGUI endGameSummaryText;
+    #endregion
+
+    #region Game Start
     // Start is called before the first frame update
     void Start()
     {
+        player.SetMain(this);
+
+        SetEnemyMainRefs();
         CreateEnemyTargetList();
         ChangeTargetEnemyColors();
 
@@ -25,10 +39,15 @@ public class Main : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Gives every enemy a reference to the main script.
+    /// </summary>
+    private void SetEnemyMainRefs()
     {
-        
+        foreach (EnemyBase enem in enemyHolder.GetComponentsInChildren<EnemyBase>())
+        {
+            enem.SetMain(this);
+        }
     }
 
     /// <summary>
@@ -62,16 +81,41 @@ public class Main : MonoBehaviour
     {
         foreach (EnemyBase enem in targetEnemies)
         {
+            enem.isTarget = true;
             enem.ChangeToTargetMat();
         }
     }
 
+    #endregion
+
+    #region Enemy List Management
     /// <summary>
     /// Removes an enemy from the target list once it has been defeated
     /// </summary>
-    private void RemoveEnemyFromTargetList(EnemyBase enemy)
+    public void RemoveEnemyFromTargetList(EnemyBase enemy)
     {
         targetEnemies.Remove(enemy);
+        if (targetEnemies.Count == 0)
+        {
+            EndGame(true);
+        }
     }
+
+    /// <summary>
+    /// Sets the text boxes for when the game ends.
+    /// </summary>
+    /// <param name="didPlayerWin"></param>
+    public void EndGame(bool didPlayerWin = false)
+    {
+        Time.timeScale = 0;
+        endGameText.enabled = true;
+        if (!didPlayerWin)
+        {
+            endGameSummaryText.text = $"There were {targetEnemies.Count} targets remaining!";
+        }
+        endGameSummaryText.enabled = true;
+    }
+
+    #endregion
 
 }
