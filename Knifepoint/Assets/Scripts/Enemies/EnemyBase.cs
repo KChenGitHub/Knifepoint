@@ -11,6 +11,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Health")]
     public int HP = 2;
     public bool hasArmor = false;
+    private bool AmIDead = false;
 
     [Header("Materials")]
     [SerializeField] private Material targetMat;
@@ -61,6 +62,7 @@ public class EnemyBase : MonoBehaviour
         //Radar
         Radar();
         Navigation();
+        KillSwitch();
     }
 
     #region References and Materials
@@ -255,9 +257,20 @@ public class EnemyBase : MonoBehaviour
             {
                 main.RemoveEnemyFromTargetList(this);
             }
+            AmIDead = true;
+        }
+    }
+
+    /// <summary>
+    /// This function exists to delay the destruction of the enemy for a frame
+    /// so that the main can remove it from the target list first.
+    /// </summary>
+    private void KillSwitch()
+    {
+        if (AmIDead)
+        {
             Destroy(gameObject);
         }
-        
     }
     #endregion
 }

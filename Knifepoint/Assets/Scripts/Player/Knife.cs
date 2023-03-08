@@ -36,7 +36,8 @@ public class Knife : MonoBehaviour
     /// </summary>
     private void PlayerCheck()
     {
-        if (checkingForPlayer && Vector3.Distance(transform.position, player.gameObject.transform.position) < collectDistance)
+        if (checkingForPlayer && Vector3.Distance(transform.position, player.gameObject.transform.position) < collectDistance
+            || (transform.position.y <= -50f))
         {
             player.ThrowKnifeReset();
             Destroy(gameObject);

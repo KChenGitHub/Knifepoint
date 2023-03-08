@@ -22,6 +22,7 @@ public class Main : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI endGameText;
     [SerializeField] private TextMeshProUGUI endGameSummaryText;
+    [SerializeField] private GameObject reticle;
     #endregion
 
     #region Game Start
@@ -108,6 +109,7 @@ public class Main : MonoBehaviour
     public void EndGame(bool didPlayerWin = false)
     {
         Time.timeScale = 0;
+        reticle.SetActive(false);
         endGameText.enabled = true;
         if (!didPlayerWin)
         {
