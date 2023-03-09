@@ -9838,6 +9838,14 @@ PrefabInstance:
       propertyPath: m_AnimatePhysics
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7193538167150255015, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 8d36edfd56a4c4c4795270b1ff85aa8e, type: 3}
+    - target: {fileID: 7304050276671749924, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3761287345993011283, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}

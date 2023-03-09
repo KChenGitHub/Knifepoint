@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject handKnife; //The knife attached to the hand model
     [SerializeField] private GameObject throwKnife; //Knife prefab for throwing
     [SerializeField] private GameObject knifeThrowPoint;
+    [SerializeField] private Animator animator;
 
     #region Start and Controls
     // Start is called before the first frame update
