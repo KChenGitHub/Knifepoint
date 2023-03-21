@@ -82,8 +82,8 @@ public class Player : MonoBehaviour
     /// <param name="damageAmount">The damage value that the player loses from their HP</param>
     public void TakeDamage(int damageAmount)
     {
-        Debug.Log("Player health at " + currHP);
         currHP -= damageAmount;
+        Debug.Log("Player health at " + currHP);
 
         if (currHP <= 0)
         {

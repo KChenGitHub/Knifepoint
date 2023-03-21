@@ -42,7 +42,12 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected float attackRange;
     [SerializeField] protected GameObject targetObject;
     [SerializeField] protected GameObject attackPoint;
-    //public bool isTargetInRange = false;
+    /// <summary>
+    /// How directly the enemy must face the player in order to begin its attack.
+    /// Closer to 1 = the more "facing" the target the enemy is.
+    /// Higher for the projectile enemy because they actually have to aim in a straight line.
+    /// </summary>
+    [SerializeField] private float rotationThreshhold;
     public enum enemyType { racyast, projectile }
     public enemyType type;
     
@@ -54,6 +59,7 @@ public class EnemyBase : MonoBehaviour
         navAgent.speed = speed;
         navAgent.isStopped = false;
         currPath = new NavMeshPath();
+        SetRotationThreshhold();
     }
 
     // Update is called once per frame
@@ -81,6 +87,21 @@ public class EnemyBase : MonoBehaviour
     public void SetMain(Main mainRef)
     {
         main = mainRef;
+    }
+
+    /// <summary>
+    /// Set the rotation threshhold for the raycast and projectile enemies.
+    /// </summary>
+    private void SetRotationThreshhold()
+    {
+        if (type == enemyType.racyast)
+        {
+            rotationThreshhold = .988f;
+        }
+        else if (type == enemyType.projectile)
+        {
+            rotationThreshhold = .99998f;
+        }
     }
     #endregion
 
@@ -179,7 +200,8 @@ public class EnemyBase : MonoBehaviour
     /// <returns></returns>
     private bool IsFacingTarget()
     {
-        if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= .988f)
+        Debug.Log(Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized));
+        if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= rotationThreshhold)
         {
             return true;
         }
