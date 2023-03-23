@@ -11,7 +11,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Health")]
     public int HP = 2;
     public bool hasArmor = false;
-    private bool AmIDead = false;
+    [SerializeField] private GameObject armorObjects;
 
     [Header("Materials")]
     [SerializeField] private Material targetMat;
@@ -68,7 +68,6 @@ public class EnemyBase : MonoBehaviour
         //Radar
         Radar();
         Navigation();
-        KillSwitch();
     }
 
     #region References and Materials
@@ -162,7 +161,8 @@ public class EnemyBase : MonoBehaviour
         }
 
         //Calculate a new path if we haven't exited the function yet
-        if (navAgent.CalculatePath(radarDestination, currPath) && hasWaited)
+        Vector3 randomNavLocation = Random.insideUnitSphere * RADARRANGE;
+        if (navAgent.CalculatePath(randomNavLocation, currPath) && hasWaited)
         {
             navAgent.SetPath(currPath);
             hasWaited = false;
@@ -200,7 +200,6 @@ public class EnemyBase : MonoBehaviour
     /// <returns></returns>
     private bool IsFacingTarget()
     {
-        Debug.Log(Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized));
         if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= rotationThreshhold)
         {
             return true;
@@ -271,28 +270,32 @@ public class EnemyBase : MonoBehaviour
         else if (damage > 1)
         {
             hasArmor = false;
+            armorObjects.SetActive(false);
         }
 
         if (HP <= 0)
         {
             if (isTarget)
             {
+                //This also destroys the enemy from the main script. This is
+                //to make sure the enemy is removed from the target list first.
                 main.RemoveEnemyFromTargetList(this);
             }
-            AmIDead = true;
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
     /// <summary>
-    /// This function exists to delay the destruction of the enemy for a frame
-    /// so that the main can remove it from the target list first.
+    /// Enables the armor on the enemy. Called from main at the start of the game.
     /// </summary>
-    private void KillSwitch()
+    public void GrantArmor()
     {
-        if (AmIDead)
-        {
-            Destroy(gameObject);
-        }
+        hasArmor = true;
+        armorObjects.SetActive(true);
     }
+
     #endregion
 }

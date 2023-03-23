@@ -34,6 +34,7 @@ public class Main : MonoBehaviour
         SetEnemyMainRefs();
         CreateEnemyTargetList();
         ChangeTargetEnemyColors();
+        GiveEnemiesArmor();
 
         //Lock the Cursor for FPS rotation
         Cursor.lockState = CursorLockMode.Locked;
@@ -72,7 +73,6 @@ public class Main : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"Enemy List created! There are {numOfTargetEnemies} targets!");
     }
 
     /// <summary>
@@ -87,6 +87,25 @@ public class Main : MonoBehaviour
         }
     }
 
+    private void GiveEnemiesArmor()
+    {
+        EnemyBase[] allEnemies = enemyHolder.GetComponentsInChildren<EnemyBase>();
+        int listLen = allEnemies.Length;
+        int numOfArmorEnemies = (int)Mathf.Floor(listLen / 3);
+        for (int i = 0; i < numOfArmorEnemies; i++)
+        {
+            float randEnemyNum = Random.Range(0, listLen);
+            for (int j = 0; j < listLen; j++)
+            {
+                if (j == randEnemyNum)
+                {
+                    allEnemies[j].GrantArmor();
+                }
+            }
+
+        }
+    }
+
     #endregion
 
     #region Enemy List Management
@@ -96,6 +115,7 @@ public class Main : MonoBehaviour
     public void RemoveEnemyFromTargetList(EnemyBase enemy)
     {
         targetEnemies.Remove(enemy);
+        Destroy(enemy.gameObject);
         if (targetEnemies.Count == 0)
         {
             EndGame(true);

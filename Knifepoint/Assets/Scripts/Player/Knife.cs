@@ -7,6 +7,7 @@ public class Knife : MonoBehaviour
     public Player player;
     private bool checkingForPlayer = false;
     private float collectDistance = 3f;
+    private bool canHurtEnemies = true;
 
     // Start is called before the first frame update
     void Start()
@@ -47,15 +48,18 @@ public class Knife : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Will add the same for projectile enemies layer
-        if (other.TryGetComponent<EnemyBase>(out EnemyBase enemy))
+        if (canHurtEnemies && other.TryGetComponent<EnemyBase>(out EnemyBase enemy))
         {
             enemy.TakeDamage();
         }
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+        canHurtEnemies = false;
+        checkingForPlayer = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+        canHurtEnemies = false;
     }
 }
