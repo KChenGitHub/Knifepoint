@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private int maxHP;
+    [SerializeField] public int maxHP;
     [SerializeField] private int currHP; //set from the editor
     [SerializeField] private GameObject[] heartIconList;
 
