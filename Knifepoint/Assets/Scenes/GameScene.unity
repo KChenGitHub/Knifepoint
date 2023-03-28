@@ -5891,6 +5891,31 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8668841454296331638, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
   m_PrefabInstance: {fileID: 1166307486}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166307490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7709880583004372606, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166307491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2102914272701953993, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166307492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8473186641233874737, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166307493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7066156696457723162, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166307494 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1287272208049979541, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1184379012
 GameObject:
   m_ObjectHideFlags: 0
@@ -9666,6 +9691,30 @@ PrefabInstance:
       propertyPath: stabText
       value: 
       objectReference: {fileID: 1166307489}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.data[0]
+      value: 
+      objectReference: {fileID: 1166307494}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.data[1]
+      value: 
+      objectReference: {fileID: 1166307493}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.data[2]
+      value: 
+      objectReference: {fileID: 1166307492}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.data[3]
+      value: 
+      objectReference: {fileID: 1166307491}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: heartIconList.Array.data[4]
+      value: 
+      objectReference: {fileID: 1166307490}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
 --- !u!20 &1926976738 stripped

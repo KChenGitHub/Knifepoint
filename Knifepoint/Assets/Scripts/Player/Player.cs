@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int maxHP;
     [SerializeField] private int currHP; //set from the editor
+    [SerializeField] private GameObject[] heartIconList;
 
     [Header("Attack")]
     [SerializeField] private BoxCollider knifeAttackHitbox;
@@ -114,7 +115,13 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currHP -= damageAmount;
-        Debug.Log("Player health at " + currHP);
+        for (int i = maxHP; i > 0; i--)
+        {
+            if (currHP < i)
+            {
+                heartIconList[i - 1].SetActive(false);
+            }
+        }
 
         if (currHP <= 0)
         {
