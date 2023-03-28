@@ -5886,6 +5886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1166307489 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8668841454296331638, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
+  m_PrefabInstance: {fileID: 1166307486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1184379012
 GameObject:
   m_ObjectHideFlags: 0
@@ -9657,6 +9662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: stabText
+      value: 
+      objectReference: {fileID: 1166307489}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
 --- !u!20 &1926976738 stripped
@@ -10001,6 +10010,7 @@ MonoBehaviour:
   endGameText: {fileID: 1166307488}
   endGameSummaryText: {fileID: 1166307487}
   reticle: {fileID: 1090720598}
+  playerStabText: {fileID: 1166307489}
 --- !u!4 &1955010826
 Transform:
   m_ObjectHideFlags: 0

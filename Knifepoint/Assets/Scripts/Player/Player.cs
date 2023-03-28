@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private int maxHP;
     [SerializeField] private int currHP; //set from the editor
+
+    [Header("Attack")]
+    [SerializeField] private BoxCollider knifeAttackHitbox;
+    [SerializeField] private GameObject stabText;
+    private bool canMeleeAttack;
 
     [Header("Knife Throwing")]
     [SerializeField] public bool canThrowKnife;
@@ -25,6 +31,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         canThrowKnife = true;
+        canMeleeAttack = true;
+        knifeAttackHitbox.name = "knifey";
     }
 
     // Update is called once per frame
@@ -37,7 +45,18 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            ThrowKnife();
+            if (canMeleeAttack)
+            {
+                StartCoroutine(MeleeAttack());
+            }
+            
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            if (canThrowKnife)
+            {
+                ThrowKnife();
+            }
         }
     }
 
@@ -48,20 +67,31 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Attacks
+
+    private IEnumerator MeleeAttack()
+    {
+        knifeAttackHitbox.enabled = true;
+        canThrowKnife = false;
+        canMeleeAttack = false;
+        stabText.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        knifeAttackHitbox.enabled = false;
+        canThrowKnife = true;
+        canMeleeAttack = true;
+        stabText.SetActive(false);
+    }
+
     /// <summary>
     /// Instances the throw knife and hides the hand knife
     /// </summary>
     private void ThrowKnife()
     {
-        if (canThrowKnife)
-        {
-            GameObject newKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
-            newKnife.GetComponent<Knife>().player = this;
-            newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
-            handKnife.SetActive(false);
-            canThrowKnife = false;
-        }
-        
+        GameObject newKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
+        newKnife.GetComponent<Knife>().player = this;
+        newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
+        handKnife.SetActive(false);
+        canThrowKnife = false;
+        canMeleeAttack = false;
     }
 
     /// <summary>
@@ -70,6 +100,7 @@ public class Player : MonoBehaviour
     public void ThrowKnifeReset()
     {
         canThrowKnife = true;
+        canMeleeAttack = true;
         handKnife.SetActive(true);
     }
 

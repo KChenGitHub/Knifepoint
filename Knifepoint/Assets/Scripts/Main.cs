@@ -23,6 +23,7 @@ public class Main : MonoBehaviour
     [SerializeField] private TextMeshProUGUI endGameText;
     [SerializeField] private TextMeshProUGUI endGameSummaryText;
     [SerializeField] private GameObject reticle;
+    [SerializeField] private GameObject playerStabText;
     #endregion
 
     #region Game Start
@@ -136,6 +137,7 @@ public class Main : MonoBehaviour
             endGameSummaryText.text = $"There were {targetEnemies.Count} targets remaining!";
         }
         endGameSummaryText.enabled = true;
+        playerStabText.SetActive(false);
     }
 
     #endregion

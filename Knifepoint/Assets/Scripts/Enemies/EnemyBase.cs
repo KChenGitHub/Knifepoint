@@ -21,7 +21,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected NavMeshAgent navAgent;
     private float stoppingDist = 2.0f;
-    private float rotationSpeed = 15f;
+    private float rotationSpeed = 50.0f;
     private Vector3 radarDestination;
     private NavMeshPath currPath;
     public float waitTimer;
@@ -33,8 +33,8 @@ public class EnemyBase : MonoBehaviour
     //public bool isRadarClockwise = true;
     public GameObject radarObject;
     public float radarAngle;
-    private const float RADARRANGE = 20.0f;
-    private const float RADARSPEED = 700.0f;
+    private const float RADARRANGE = 50.0f;
+    private const float RADARSPEED = 1300.0f;
     //private const float MAXRADARANGLE = 70.0f; //Used if we want a more narrow radar angle
 
     [Header("Attacks")]
@@ -95,7 +95,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (type == enemyType.racyast)
         {
-            rotationThreshhold = .988f;
+            rotationThreshhold = .998f;
         }
         else if (type == enemyType.projectile)
         {
@@ -285,6 +285,15 @@ public class EnemyBase : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.name == "knifey")
+        {
+            TakeDamage();
+            other.enabled = false;
         }
     }
 

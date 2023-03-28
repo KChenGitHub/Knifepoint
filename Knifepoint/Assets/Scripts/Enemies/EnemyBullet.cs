@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    private float speed = 20f;
+    private readonly float speed = 10f;
     public Vector3 dir;
     // Update is called once per frame
     void Update()
@@ -14,10 +14,8 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Enemy projectile hit!");
         if (collision.collider.TryGetComponent<Player>(out Player player))
         {
-            Debug.Log("Enemy projectile hit player!");
             player.TakeDamage(1);
         }
 

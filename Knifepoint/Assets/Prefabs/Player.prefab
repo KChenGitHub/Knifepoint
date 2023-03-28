@@ -186,6 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 3
   currHP: 3
+  knifeAttackHitbox: {fileID: 1005490005193394573}
+  stabText: {fileID: 0}
   canThrowKnife: 0
   throwForce: 1800
   FPSController: {fileID: 3395340027148428209}
@@ -205,14 +207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83989d312ffe45346bd3fea28d366d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 7.5
-  runningSpeed: 20
-  jumpSpeed: 8
-  gravity: 20
+  walkingSpeed: 17
+  runningSpeed: 25
+  jumpSpeed: 15
+  gravity: 22
   playerCamera: {fileID: 3395340027042938992}
   lookSpeed: 2
   lookXLimit: 45
-  health: 0
   canMove: 1
 --- !u!114 &3395340027148428236
 MonoBehaviour:
@@ -285,8 +286,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 2.894
       objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Size.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Center.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_Center.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+--- !u!65 &1005490005193394573 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
+  m_PrefabInstance: {fileID: 2663553734311893486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2584998095651886586 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 515972289032293396, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
