@@ -26,7 +26,10 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject handKnife; //The knife attached to the hand model
     [SerializeField] private GameObject throwKnife; //Knife prefab for throwing
     [SerializeField] private GameObject knifeThrowPoint;
-    private Animator anim;
+
+    [Header("Animations")]
+    [SerializeField]private Animator anim;
+    private Vector3 lastPos;
 
     #region Start and Controls
     // Start is called before the first frame update
@@ -35,13 +38,14 @@ public class Player : MonoBehaviour
         canThrowKnife = true;
         canMeleeAttack = true;
         knifeAttackHitbox.name = "knifey";
-        anim = GetComponent<Animator>();
+        lastPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckInput();
+        SetMovementAnims();
     }
 
     private void CheckInput()
@@ -60,6 +64,26 @@ public class Player : MonoBehaviour
             {
                 ThrowKnife();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("Throwing true");
+            anim.SetTrigger("Throwing");
+        }
+    }
+
+    private void SetMovementAnims()
+    {
+        var dist = Vector3.Distance(lastPos, transform.position);
+        lastPos = transform.position;
+        var speed = dist / Time.deltaTime;
+        if (speed > 0f)
+        {
+            anim.SetBool("Moving", true);
+        }
+        else
+        {
+            anim.SetBool("Moving", false);
         }
     }
 
@@ -83,7 +107,7 @@ public class Player : MonoBehaviour
         canThrowKnife = true;
         canMeleeAttack = true;
         stabText.SetActive(false);
-        anim.SetBool("Melee", false);
+        StartCoroutine(ResetAnimations());
     }
 
     /// <summary>
@@ -91,14 +115,13 @@ public class Player : MonoBehaviour
     /// </summary>
     private void ThrowKnife()
     {
-        anim.SetBool("Throwing", true);
+        anim.SetTrigger("Throwing");
         GameObject newKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
         newKnife.GetComponent<Knife>().player = this;
         newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
         handKnife.SetActive(false);
         canThrowKnife = false;
         canMeleeAttack = false;
-        anim.SetBool("Throwing", false);
     }
 
     /// <summary>
@@ -157,6 +180,12 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region
+    #region Animations
+    private IEnumerator ResetAnimations()
+    {
+        yield return new WaitForSeconds(.5f);
+        anim.SetBool("Melee", false);
+    }
+
     #endregion
 }
