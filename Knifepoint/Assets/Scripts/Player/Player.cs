@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject handKnife; //The knife attached to the hand model
     [SerializeField] private GameObject throwKnife; //Knife prefab for throwing
     [SerializeField] private GameObject knifeThrowPoint;
+    private Animator anim;
 
     #region Start and Controls
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
         canThrowKnife = true;
         canMeleeAttack = true;
         knifeAttackHitbox.name = "knifey";
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -75,11 +77,13 @@ public class Player : MonoBehaviour
         canThrowKnife = false;
         canMeleeAttack = false;
         stabText.SetActive(true);
+        anim.SetBool("Melee", true);
         yield return new WaitForSeconds(.5f);
         knifeAttackHitbox.enabled = false;
         canThrowKnife = true;
         canMeleeAttack = true;
         stabText.SetActive(false);
+        anim.SetBool("Melee", false);
     }
 
     /// <summary>
@@ -87,12 +91,14 @@ public class Player : MonoBehaviour
     /// </summary>
     private void ThrowKnife()
     {
+        anim.SetBool("Throwing", true);
         GameObject newKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
         newKnife.GetComponent<Knife>().player = this;
         newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
         handKnife.SetActive(false);
         canThrowKnife = false;
         canMeleeAttack = false;
+        anim.SetBool("Throwing", false);
     }
 
     /// <summary>
@@ -149,5 +155,8 @@ public class Player : MonoBehaviour
         maxHP = healthAmount;
         currHP = healthAmount;
     }
+    #endregion
+
+    #region
     #endregion
 }
