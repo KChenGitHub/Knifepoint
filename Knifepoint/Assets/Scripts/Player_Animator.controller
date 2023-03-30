@@ -62,7 +62,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Walk
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -190,7 +190,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle (Knife)
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -231,8 +231,8 @@ AnimatorStateMachine:
     m_Position: {x: 730, y: -210, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
-  - {fileID: -3740733773564265396}
   - {fileID: -5024729622994258078}
+  - {fileID: -3740733773564265396}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
@@ -255,25 +255,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Has Knife
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Melee
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Throwing
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Right Arm
@@ -392,7 +392,7 @@ AnimatorStateMachine:
     m_Position: {x: 120, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5658172299158877987}
-    m_Position: {x: 140, y: 70, z: 0}
+    m_Position: {x: 370, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3600493674783479118}
     m_Position: {x: 460, y: -270, z: 0}
@@ -404,10 +404,10 @@ AnimatorStateMachine:
     m_Position: {x: 230, y: -30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
-  - {fileID: 4726603497793280731}
-  - {fileID: -8764581589859076988}
-  - {fileID: 2030342564440163082}
   - {fileID: 1856608026827773782}
+  - {fileID: 2030342564440163082}
+  - {fileID: -8764581589859076988}
+  - {fileID: 4726603497793280731}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []

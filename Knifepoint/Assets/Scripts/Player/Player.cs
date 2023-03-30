@@ -144,13 +144,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currHP -= damageAmount;
-        for (int i = maxHP; i > 0; i--)
-        {
-            if (currHP < i)
-            {
-                heartIconList[i - 1].SetActive(false);
-            }
-        }
+        UpdateHealthUI();
 
         if (currHP <= 0)
         {
@@ -167,18 +161,37 @@ public class Player : MonoBehaviour
     public void GainHealth(int healthAmount)
     {
         currHP = currHP >= maxHP ? maxHP : currHP + healthAmount;
+        UpdateHealthUI();
     }
 
     /// <summary>
     /// Used by the HP incresase upgrade item
     /// </summary>
     /// <param name="healthAmount">The amount the max HP gets increased to</param>
-    private void increaseHPMax(int healthAmount)
+    public void increaseHPMax(int healthAmount)
     {
-        maxHP = healthAmount;
-        currHP = healthAmount;
+        maxHP += healthAmount;
+        currHP = maxHP;
+        UpdateHealthUI();
+    }
+
+    private void UpdateHealthUI()
+    {
+        for (int i = 0; i < maxHP; i++)
+        {
+            if (currHP > i)
+            {
+                heartIconList[i].SetActive(true);
+            }
+            else
+            {
+                heartIconList[i].SetActive(false);
+            }
+        }
     }
     #endregion
+
+
 
     #region Animations
     private IEnumerator ResetAnimations()

@@ -8,31 +8,10 @@ public class HealthUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent<Player>(out Player player)) 
         {
-            Pickup(other);
+            player.increaseHPMax(addHealth);
+            Destroy(gameObject);
         }
     }
-
-    void Pickup(Collider player)
-    {
-
-        Debug.Log("Power up is picked up");
-        Player health = player.GetComponent<Player>();
-        health.maxHP += addHealth;
-        health.currHP += addHealth;
-
-        Destroy(gameObject);
-
-        for (int i = health.maxHP; i > 0; i++)
-        {
-            if (health.currHP > i)
-            {
-                health.heartIconList[i + 1].SetActive(true);
-            }
-        }
-    }
-
-    
-
 }
