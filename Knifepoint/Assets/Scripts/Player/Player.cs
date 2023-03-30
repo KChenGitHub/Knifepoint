@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] public int maxHP;
-    [SerializeField] private int currHP; //set from the editor
-    [SerializeField] private GameObject[] heartIconList;
+    [SerializeField] public int currHP; //set from the editor
+    [SerializeField] public GameObject[] heartIconList;
 
     [Header("Attack")]
     [SerializeField] private BoxCollider knifeAttackHitbox;
