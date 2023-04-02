@@ -190,6 +190,9 @@ MonoBehaviour:
   heartIconList: []
   knifeAttackHitbox: {fileID: 1005490005193394573}
   stabText: {fileID: 0}
+  hasKnifeSwarm: 0
+  knifeSwarmDuration: 5
+  knifeSwarmInterval: 0.05
   canThrowKnife: 0
   throwForce: 1800
   FPSController: {fileID: 3395340027148428209}

@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] private BoxCollider knifeAttackHitbox;
     [SerializeField] private GameObject stabText;
     private bool canMeleeAttack;
+    [SerializeField] private bool hasKnifeSwarm;
+    [SerializeField] private float knifeSwarmDuration;
+    [SerializeField] private float knifeSwarmInterval;
 
     [Header("Knife Throwing")]
     [SerializeField] public bool canThrowKnife;
@@ -62,7 +65,16 @@ public class Player : MonoBehaviour
         {
             if (canThrowKnife)
             {
-                ThrowKnife();
+                handKnife.SetActive(false);
+                if (hasKnifeSwarm)
+                {
+                    StartCoroutine(KnifeSwarm());
+                }
+                else
+                {
+                    ThrowKnife();
+                }
+                
             }
         }
         if (Input.GetKeyDown(KeyCode.J))
@@ -117,11 +129,23 @@ public class Player : MonoBehaviour
     {
         anim.SetTrigger("Throwing");
         GameObject newKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
-        newKnife.GetComponent<Knife>().player = this;
+        Knife knifeScript = newKnife.GetComponent<Knife>();
+        knifeScript.player = this;
+        knifeScript.isKnifeSwarmKnife = false;
+        //newKnife.GetComponent<Knife>().StartCoroutine(WaitAfterThrow());
         newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
-        handKnife.SetActive(false);
+
         canThrowKnife = false;
         canMeleeAttack = false;
+    }
+
+    private void KnifeSwarmThrow(float throwAngle)
+    {
+        Vector3 directionVec = Quaternion.Euler(knifeThrowPoint.transform.rotation.x, throwAngle, knifeThrowPoint.transform.rotation.z) * knifeThrowPoint.transform.forward;
+        GameObject swarmKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
+        swarmKnife.GetComponent<Knife>().player = this;
+        swarmKnife.GetComponent<Knife>().isKnifeSwarmKnife = true;
+        swarmKnife.GetComponent<Rigidbody>().AddForce((knifeThrowPoint.transform.forward + directionVec) * throwForce);
     }
 
     /// <summary>
@@ -133,6 +157,42 @@ public class Player : MonoBehaviour
         canMeleeAttack = true;
         handKnife.SetActive(true);
     }
+
+    public IEnumerator KnifeSwarm()
+    {
+        canThrowKnife = false;
+        canMeleeAttack = false;
+        bool throwAngleIncreasing = false;
+        float throwAngle = 0f;
+        float throwAngleThreshhold = 45f;
+        float throwAngleMod = 100.0f;
+        float totalDuration = 0f;
+        float currInterval = 0f;
+
+        while (totalDuration < knifeSwarmDuration)
+        {
+            while (currInterval < knifeSwarmInterval)
+            {
+                currInterval += Time.deltaTime;
+                totalDuration += Time.deltaTime;
+                
+                //Add to the throw angle to change the direction as the knives go
+                throwAngle = throwAngleIncreasing ? throwAngle + (Time.deltaTime * throwAngleMod) : throwAngle - (Time.deltaTime * throwAngleMod);
+                yield return null;
+            }
+            //Reverse the angle if it is over the threshold
+            if (Mathf.Abs(throwAngle) >= throwAngleThreshhold)
+            {
+                throwAngleIncreasing = !throwAngleIncreasing;
+            }
+            KnifeSwarmThrow(throwAngle);
+            currInterval = 0f;
+            yield return null;
+        }
+
+        ThrowKnifeReset();
+    }
+
 
     #endregion
 

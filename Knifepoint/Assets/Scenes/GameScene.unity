@@ -10056,6 +10056,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1166307489}
     - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
+      propertyPath: hasKnifeSwarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395340027148428237, guid: cca21952ea5e6794fac28e1df4deea87, type: 3}
       propertyPath: heartIconList.Array.size
       value: 5
       objectReference: {fileID: 0}
