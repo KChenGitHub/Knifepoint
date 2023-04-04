@@ -158,6 +158,19 @@ public class Player : MonoBehaviour
         handKnife.SetActive(true);
     }
 
+    /// <summary>
+    /// sets hasKnifeSwarm to true so that the player can use the knife swarm
+    /// We use a public method because the hasSwarm bool is private. Abstraction.
+    /// </summary>
+    public void GiveKnifeSwarm()
+    {
+        hasKnifeSwarm = true;
+    }
+
+    /// <summary>
+    /// Launches an AoE attack over a duration.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator KnifeSwarm()
     {
         canThrowKnife = false;
@@ -189,7 +202,7 @@ public class Player : MonoBehaviour
             currInterval = 0f;
             yield return null;
         }
-
+        hasKnifeSwarm = false;
         ThrowKnifeReset();
     }
 
