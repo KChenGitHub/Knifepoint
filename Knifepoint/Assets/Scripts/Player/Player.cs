@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         canThrowKnife = false;
         canMeleeAttack = false;
         stabText.SetActive(true);
-        anim.SetBool("Melee", true);
+        anim.SetTrigger("Melee");
         yield return new WaitForSeconds((.5f * Time.timeScale));
         knifeAttackHitbox.enabled = false;
         canThrowKnife = true;
@@ -137,6 +137,7 @@ public class Player : MonoBehaviour
 
         canThrowKnife = false;
         canMeleeAttack = false;
+        anim.SetBool("Has Knife", false);
     }
 
     private void KnifeSwarmThrow(float throwAngle)
@@ -156,6 +157,7 @@ public class Player : MonoBehaviour
         canThrowKnife = true;
         canMeleeAttack = true;
         handKnife.SetActive(true);
+        anim.SetBool("Has Knife", true);
     }
 
     /// <summary>
@@ -270,7 +272,7 @@ public class Player : MonoBehaviour
     private IEnumerator ResetAnimations()
     {
         yield return new WaitForSeconds(.5f);
-        anim.SetBool("Melee", false);
+        //anim.SetBool("Melee", false);
     }
 
     #endregion
