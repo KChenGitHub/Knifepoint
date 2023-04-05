@@ -6,6 +6,7 @@ public class TimeSlow : MonoBehaviour
 {
     public float timeSpeed = 0.5f; //the in-game speed
     public float duration = 4.5f; //How long the powerup will last
+    [SerializeField] private GameObject MeshDisk, MeshCylinder;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,13 +18,9 @@ public class TimeSlow : MonoBehaviour
 
     IEnumerator Pickup(Collider other)
     {
-
-        Debug.Log("Power up is picked up");
-        Time.timeScale = timeSpeed; //Everything including the player will be affected.
-
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<Collider>().enabled = false;
-
+        Time.timeScale = timeSpeed;
+        MeshDisk.SetActive(false);
+        MeshCylinder.SetActive(false);
         yield return new WaitForSeconds(duration);
         Time.timeScale = 1;
         Destroy(gameObject);
