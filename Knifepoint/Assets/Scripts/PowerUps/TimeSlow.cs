@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TimeSlow : MonoBehaviour
 {
-    public float timeSpeed = 0.20f; //the in-game speed
-    public float duration = 5; //How long the powerup will last
+    public float timeSpeed = 0.5f; //the in-game speed
+    public float duration = 4.5f; //How long the powerup will last
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,18 +25,7 @@ public class TimeSlow : MonoBehaviour
         GetComponent<Collider>().enabled = false;
 
         yield return new WaitForSeconds(duration);
-
-        duration = Time.deltaTime;
-
-        Debug.Log("The duration is" + duration);
-        if (duration == 0)
-        {
-            
-            Time.timeScale = 1;
-        }
-
-        //Time.timeScale = 1;
-
+        Time.timeScale = 1;
         Destroy(gameObject);
     }
 }

@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
     {
         var dist = Vector3.Distance(lastPos, transform.position);
         lastPos = transform.position;
-        var speed = dist / Time.deltaTime;
+        var speed = dist / Time.unscaledDeltaTime;
         if (speed > 0f)
         {
             anim.SetBool("Moving", true);
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
         canMeleeAttack = false;
         stabText.SetActive(true);
         anim.SetBool("Melee", true);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds((.5f * Time.timeScale));
         knifeAttackHitbox.enabled = false;
         canThrowKnife = true;
         canMeleeAttack = true;
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
         knifeScript.player = this;
         knifeScript.isKnifeSwarmKnife = false;
         //newKnife.GetComponent<Knife>().StartCoroutine(WaitAfterThrow());
-        newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * throwForce);
+        newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * (throwForce * (2 - Time.timeScale)));
 
         canThrowKnife = false;
         canMeleeAttack = false;
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
         GameObject swarmKnife = Instantiate(throwKnife, knifeThrowPoint.transform.position, knifeThrowPoint.transform.rotation);
         swarmKnife.GetComponent<Knife>().player = this;
         swarmKnife.GetComponent<Knife>().isKnifeSwarmKnife = true;
-        swarmKnife.GetComponent<Rigidbody>().AddForce((knifeThrowPoint.transform.forward + directionVec) * throwForce);
+        swarmKnife.GetComponent<Rigidbody>().AddForce((knifeThrowPoint.transform.forward + directionVec) * (throwForce * (2 - Time.timeScale)));
     }
 
     /// <summary>
@@ -186,11 +186,11 @@ public class Player : MonoBehaviour
         {
             while (currInterval < knifeSwarmInterval)
             {
-                currInterval += Time.deltaTime;
-                totalDuration += Time.deltaTime;
+                currInterval += Time.unscaledDeltaTime;
+                totalDuration += Time.unscaledDeltaTime;
                 
                 //Add to the throw angle to change the direction as the knives go
-                throwAngle = throwAngleIncreasing ? throwAngle + (Time.deltaTime * throwAngleMod) : throwAngle - (Time.deltaTime * throwAngleMod);
+                throwAngle = throwAngleIncreasing ? throwAngle + (Time.unscaledDeltaTime * throwAngleMod) : throwAngle - (Time.unscaledDeltaTime * throwAngleMod);
                 yield return null;
             }
             //Reverse the angle if it is over the threshold

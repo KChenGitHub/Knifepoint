@@ -54,11 +54,11 @@ public class FPSController : MonoBehaviour
         // Apply gravity.
         if (!characterController.isGrounded)
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            moveDirection.y -= gravity * Time.unscaledDeltaTime;
         }
 
         // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime);
+        characterController.Move(moveDirection * Time.unscaledDeltaTime);
 
         // Player and Camera rotation
         if (canMove)
