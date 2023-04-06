@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Main : MonoBehaviour
     [SerializeField] private TextMeshProUGUI endGameSummaryText;
     [SerializeField] private GameObject reticle;
     [SerializeField] private GameObject playerStabText;
+    [SerializeField] private GameObject RestartButton;
     #endregion
 
     #region Game Start
@@ -36,6 +38,11 @@ public class Main : MonoBehaviour
         CreateEnemyTargetList();
         ChangeTargetEnemyColors();
         GiveEnemiesArmor();
+
+        //For if we restarted
+        Time.timeScale = 1f;
+        player.GetComponent<FPSController>().lookSpeed = 2;
+        player.GetComponent<FPSController>().canMove = true;
 
         //Lock the Cursor for FPS rotation
         Cursor.lockState = CursorLockMode.Locked;
@@ -107,6 +114,7 @@ public class Main : MonoBehaviour
         }
     }
 
+
     #endregion
 
     #region Enemy List Management
@@ -116,7 +124,6 @@ public class Main : MonoBehaviour
     public void RemoveEnemyFromTargetList(EnemyBase enemy)
     {
         targetEnemies.Remove(enemy);
-        Destroy(enemy.gameObject);
         if (targetEnemies.Count == 0)
         {
             EndGame(true);
@@ -132,6 +139,11 @@ public class Main : MonoBehaviour
         Time.timeScale = 0;
         reticle.SetActive(false);
         endGameText.enabled = true;
+        RestartButton.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        player.GetComponent<FPSController>().lookSpeed = 0;
+        player.GetComponent<FPSController>().canMove = false;
         if (!didPlayerWin)
         {
             endGameSummaryText.text = $"There were {targetEnemies.Count} targets remaining!";
@@ -139,6 +151,16 @@ public class Main : MonoBehaviour
         endGameSummaryText.enabled = true;
         playerStabText.SetActive(false);
     }
+
+    /// <summary>
+    /// Called by the restart button
+    /// </summary>
+    public void RestartGame()
+    {
+        Debug.Log("Restart button pressed!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
     #endregion
 

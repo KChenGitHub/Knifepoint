@@ -275,16 +275,7 @@ public class EnemyBase : MonoBehaviour
 
         if (HP <= 0)
         {
-            if (isTarget)
-            {
-                //This also destroys the enemy from the main script. This is
-                //to make sure the enemy is removed from the target list first.
-                main.RemoveEnemyFromTargetList(this);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 
@@ -304,6 +295,14 @@ public class EnemyBase : MonoBehaviour
     {
         hasArmor = true;
         armorObjects.SetActive(true);
+    }
+
+    void OnDestroy()
+    {
+        if (isTarget)
+        {
+            main.RemoveEnemyFromTargetList(this);
+        }
     }
 
     #endregion

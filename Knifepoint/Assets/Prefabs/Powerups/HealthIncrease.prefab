@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9034809965901065647}
   - component: {fileID: 9034809965901065642}
   - component: {fileID: 9034809965901065643}
+  - component: {fileID: 3371353963747270540}
   m_Layer: 0
   m_Name: HealthIncrease
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 9034809965901065640}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.38, y: 0.866, z: 5.74}
-  m_LocalScale: {x: 0.69948, y: 0.69948, z: 0.69948}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6967406377187928900}
@@ -45,7 +46,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9034809965901065643
 MonoBehaviour:
@@ -60,6 +61,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addHealth: 2
+--- !u!111 &3371353963747270540
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9034809965901065640}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2e53169ced541f642bf66da56ed08ed8, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 2e53169ced541f642bf66da56ed08ed8, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &7438691294738549935
 PrefabInstance:
   m_ObjectHideFlags: 0

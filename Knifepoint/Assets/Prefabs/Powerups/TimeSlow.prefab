@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3616824435519443776}
   - component: {fileID: 3616824435519443781}
   - component: {fileID: 8355735391007678717}
+  - component: {fileID: 3880283013568032019}
   m_Layer: 0
   m_Name: TimeSlow
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3616824435519443783}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.38, y: 0.866, z: 5.74}
-  m_LocalScale: {x: 0.69948, y: 0.69948, z: 0.69948}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6693016336534653241}
@@ -59,10 +60,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5b8e9875709b14f9495654c650d86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSpeed: 0.2
-  duration: 5
   MeshDisk: {fileID: 5729789830254802002}
   MeshCylinder: {fileID: 8006482089780495025}
+--- !u!111 &3880283013568032019
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3616824435519443783}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2e53169ced541f642bf66da56ed08ed8, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 2e53169ced541f642bf66da56ed08ed8, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &6586769098837176018
 PrefabInstance:
   m_ObjectHideFlags: 0
