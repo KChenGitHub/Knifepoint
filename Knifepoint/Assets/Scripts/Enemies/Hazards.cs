@@ -20,6 +20,7 @@ public class Hazards : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log("Player touch");
         if (other.TryGetComponent<Player>(out Player pc))
         {
             damageTimer += Time.deltaTime;
