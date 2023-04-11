@@ -188,7 +188,8 @@ MonoBehaviour:
   maxHP: 3
   currHP: 3
   heartIconList: []
-  knifeAttackHitbox: {fileID: 1005490005193394573}
+  knifeAttackHitbox: {fileID: 3720048928421295389}
+  shoveAttackHitBox: {fileID: 370518179984613495}
   stabText: {fileID: 0}
   hasKnifeSwarm: 0
   knifeSwarmDuration: 5
@@ -384,11 +385,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 913cf1f9fabf95a4094c0093d2bbc0b3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
---- !u!65 &1005490005193394573 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 2955188013364236387, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
-  m_PrefabInstance: {fileID: 2663553734311893486}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5589998858126550186 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7594602079460244804, guid: 8ae29dc377b305b45b44e69621c21608, type: 3}
@@ -763,9 +759,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8ea133de9e486a459e40a328a2dcf30, type: 3}
+--- !u!65 &370518179984613495 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 4295344483713050280, guid: f8ea133de9e486a459e40a328a2dcf30, type: 3}
+  m_PrefabInstance: {fileID: 4519495673106187999}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2923982667732421392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1597770577643294159, guid: f8ea133de9e486a459e40a328a2dcf30, type: 3}
+  m_PrefabInstance: {fileID: 4519495673106187999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3720048928421295389 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 943571831606440898, guid: f8ea133de9e486a459e40a328a2dcf30, type: 3}
   m_PrefabInstance: {fileID: 4519495673106187999}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4690270914200132392 stripped

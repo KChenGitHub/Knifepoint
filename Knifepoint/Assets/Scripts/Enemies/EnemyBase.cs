@@ -20,6 +20,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Movement")]
     [SerializeField] protected int speed;
     [SerializeField] protected NavMeshAgent navAgent;
+    [SerializeField] private Rigidbody rbody;
     private float stoppingDist = 2.0f;
     private float rotationSpeed = 50.0f;
     private Vector3 radarDestination;
@@ -117,6 +118,10 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Navigation()
     {
+        if (!navAgent.enabled)
+        {
+            return;
+        }
         if (radarObject && radarObject.TryGetComponent<Player>(out Player player))
         {
             navAgent.SetDestination(radarObject.transform.position);
@@ -279,11 +284,36 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    private void GetShoved(Vector3 colliderPos)
+    {
+        Vector3 forceVec = transform.position - colliderPos;
+        //navAgent.enabled = false;
+        //Vector3 prePos = transform.position;
+        //rbody.useGravity = false;
+        //transform.position = prePos;
+        rbody.AddForce(forceVec * 75f, ForceMode.Impulse);
+        //rbody.AddForce(transform.up * 3000f, ForceMode.Impulse);
+        StartCoroutine(StopMomentumAfterDelay(.5f));
+    }
+
+    private IEnumerator StopMomentumAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        rbody.velocity = Vector3.zero;
+        navAgent.enabled = true;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.name == "knifey")
         {
             TakeDamage();
+            other.enabled = false;
+        }
+        else if (other.name == "shoveit")
+        {
+            Debug.Log(other.transform.parent.name);
+            GetShoved(other.transform.parent.transform.position);
             other.enabled = false;
         }
     }

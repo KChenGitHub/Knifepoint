@@ -512,6 +512,7 @@ MonoBehaviour:
   meshRend: {fileID: 5581670943567012749}
   speed: 15
   navAgent: {fileID: 5581670941640546957}
+  rbody: {fileID: 1042042961506384575}
   waitTimer: 0
   waitTime: 0
   isWaiting: 0
@@ -664,14 +665,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5581670941640546963}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 20
+  m_Drag: 0.3
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &5581670942531518539
 GameObject:
   m_ObjectHideFlags: 0

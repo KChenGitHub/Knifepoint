@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     [Header("Attack")]
     [SerializeField] private BoxCollider knifeAttackHitbox;
+    [SerializeField] private BoxCollider shoveAttackHitBox;
     [SerializeField] private GameObject stabText;
     private bool canMeleeAttack;
     [SerializeField] private bool hasKnifeSwarm;
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour
         canThrowKnife = true;
         canMeleeAttack = true;
         knifeAttackHitbox.name = "knifey";
+        shoveAttackHitBox.name = "shoveit"; //I am going to regret this
+        knifeAttackHitbox.enabled = false;
+        shoveAttackHitBox.enabled = false;
         lastPos = transform.position;
     }
 
@@ -79,8 +83,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("Throwing true");
-            anim.SetTrigger("Throwing");
+            StartCoroutine(ShoveAttack());
         }
     }
 
@@ -120,6 +123,18 @@ public class Player : MonoBehaviour
         canMeleeAttack = true;
         stabText.SetActive(false);
         StartCoroutine(ResetAnimations());
+    }
+
+    private IEnumerator ShoveAttack()
+    {
+        canThrowKnife = false;
+        canMeleeAttack = false;
+        //yield return new WaitForSeconds((.2f * Time.timeScale));
+        shoveAttackHitBox.enabled = true;
+        //Animator?????
+        yield return new WaitForSeconds((.5f * Time.timeScale));
+        shoveAttackHitBox.enabled = false;
+        canMeleeAttack = true;
     }
 
     /// <summary>
