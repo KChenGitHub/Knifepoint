@@ -7,6 +7,7 @@ public class TimeSlow : MonoBehaviour
     private float timeSpeed = 0.5f; //the in-game speed
     private float duration = 2.5f; //How long the powerup will last
     [SerializeField] private GameObject MeshDisk, MeshCylinder;
+    public GameObject timeSlowPanel;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +22,9 @@ public class TimeSlow : MonoBehaviour
         Time.timeScale = timeSpeed;
         MeshDisk.SetActive(false);
         MeshCylinder.SetActive(false);
+        timeSlowPanel.SetActive(true);
         yield return new WaitForSeconds(duration); //Actually 5 seconds because of half time
+        timeSlowPanel.SetActive(false);
         Time.timeScale = 1;
         Destroy(gameObject);
     }

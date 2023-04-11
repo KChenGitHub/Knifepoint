@@ -29,6 +29,7 @@ public class EnemyBase : MonoBehaviour
     public float waitTime;
     public bool isWaiting;
     public bool hasWaited;
+    private bool checkingForFloor;
 
     [Header("Radar")]
     //public bool isRadarClockwise = true;
@@ -287,18 +288,32 @@ public class EnemyBase : MonoBehaviour
     private void GetShoved(Vector3 colliderPos)
     {
         Vector3 forceVec = transform.position - colliderPos;
-        //navAgent.enabled = false;
+        navAgent.enabled = false;
+        checkingForFloor = false;
         //Vector3 prePos = transform.position;
-        //rbody.useGravity = false;
+        rbody.velocity = Vector3.zero;
         //transform.position = prePos;
-        rbody.AddForce(forceVec * 75f, ForceMode.Impulse);
-        //rbody.AddForce(transform.up * 3000f, ForceMode.Impulse);
-        StartCoroutine(StopMomentumAfterDelay(.5f));
+        rbody.AddForce(forceVec * 100f, ForceMode.Impulse);
+        rbody.AddForce(transform.up * 150f, ForceMode.Impulse);
+        StartCoroutine(CheckforGroundAfterDelay(.5f));
     }
 
-    private IEnumerator StopMomentumAfterDelay(float delay)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (checkingForFloor)
+        {
+            ResetNavMesh();
+        }
+    }
+
+    private IEnumerator CheckforGroundAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        checkingForFloor = true;
+    }
+
+    private void ResetNavMesh()
+    {
         rbody.velocity = Vector3.zero;
         navAgent.enabled = true;
     }
@@ -312,7 +327,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (other.name == "shoveit")
         {
-            Debug.Log(other.transform.parent.name);
             GetShoved(other.transform.parent.transform.position);
             other.enabled = false;
         }

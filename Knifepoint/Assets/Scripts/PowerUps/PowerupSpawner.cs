@@ -8,6 +8,7 @@ public class PowerupSpawner : MonoBehaviour
     [Header("Spawn Locations")]
     [SerializeField] private PowerupSpawnPoint[] spawnLocations;
     private bool healthPowerupLocationSet, timePowerupLocationSet, knifeAttackPowerupLocationSet = false;
+    [SerializeField] private GameObject timeSlowPanel;
 
     [Header("Powerup Prefabs")]
     [SerializeField] private GameObject healthPowerup;
@@ -59,7 +60,8 @@ public class PowerupSpawner : MonoBehaviour
             PowerupSpawnPoint spawnLocation = chooseRandomLocation();
             if (spawnLocation)
             {
-                Instantiate (timePowerup, spawnLocation.transform.position, spawnLocation.transform.rotation);
+                GameObject timeSlow = Instantiate (timePowerup, spawnLocation.transform.position, spawnLocation.transform.rotation);
+                timeSlow.GetComponent<TimeSlow>().timeSlowPanel = timeSlowPanel;
                 timePowerupLocationSet = true;
             }
         }
