@@ -7,13 +7,14 @@ public class PowerupSpawner : MonoBehaviour
 
     [Header("Spawn Locations")]
     [SerializeField] private PowerupSpawnPoint[] spawnLocations;
-    private bool healthPowerupLocationSet, timePowerupLocationSet, knifeAttackPowerupLocationSet = false;
+    private bool healthPowerupLocationSet, timePowerupLocationSet, knifeAttackPowerupLocationSet, shovePowerupLocationSet = false;
     [SerializeField] private GameObject timeSlowPanel;
 
     [Header("Powerup Prefabs")]
     [SerializeField] private GameObject healthPowerup;
     [SerializeField] private GameObject timePowerup;
     [SerializeField] private GameObject knifeAttackPowerup;
+    [SerializeField] private GameObject shoveAttackPowerup;
 
 
     // Start is called before the first frame update
@@ -73,6 +74,16 @@ public class PowerupSpawner : MonoBehaviour
             {
                 Instantiate(knifeAttackPowerup, spawnLocation.transform.position, spawnLocation.transform.rotation);
                 knifeAttackPowerupLocationSet = true;
+            }
+        }
+
+        while (!shovePowerupLocationSet)
+        {
+            PowerupSpawnPoint spawnLocation = chooseRandomLocation();
+            if (spawnLocation)
+            {
+                Instantiate(shoveAttackPowerup, spawnLocation.transform.position, spawnLocation.transform.rotation);
+                shovePowerupLocationSet = true;
             }
         }
     }

@@ -557,6 +557,11 @@ MonoBehaviour:
   hazardDamage: 1
   timeBetweenDamageTicks: 3
   damageTimer: 0
+  firePS: {fileID: 0}
+  fireGuyserCollider: {fileID: 0}
+  fencePlaneOne: {fileID: 0}
+  fencePlaneTwo: {fileID: 0}
+  type: 0
 --- !u!65 &4555451422033721603
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -565,7 +570,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7282280509677845115}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 13, y: 4, z: 13}

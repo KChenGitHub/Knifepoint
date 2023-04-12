@@ -18,8 +18,11 @@ public class Player : MonoBehaviour
     [SerializeField] private bool hasKnifeSwarm;
     [SerializeField] private float knifeSwarmDuration;
     [SerializeField] private float knifeSwarmInterval;
+    private bool hasShoveAttack = false;
+    private bool canShoveAttack = false;
 
     [Header("Knife Throwing")]
+    private bool hasKnife;
     [SerializeField] public bool canThrowKnife;
     [SerializeField] private float throwForce;
 
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         canThrowKnife = true;
+        hasKnife = true;
         canMeleeAttack = true;
         knifeAttackHitbox.name = "knifey";
         shoveAttackHitBox.name = "shoveit"; //I am going to regret this
@@ -63,11 +67,15 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine(MeleeAttack());
             }
+            else if (hasShoveAttack && canShoveAttack)
+            {
+                StartCoroutine(ShoveAttack());
+            }
             
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            if (canThrowKnife)
+            if (hasKnife && canThrowKnife)
             {
                 handKnife.SetActive(false);
                 if (hasKnifeSwarm)
@@ -80,10 +88,6 @@ public class Player : MonoBehaviour
                 }
                 
             }
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartCoroutine(ShoveAttack());
         }
     }
 
@@ -110,11 +114,25 @@ public class Player : MonoBehaviour
 
     #region Attacks
 
+    private void SetAttackText(string attackType)
+    {
+        if (attackType == "knife")
+        {
+            stabText.GetComponent<Text>().text = "*Stab!*";
+        }
+        else if (attackType == "shove")
+        {
+            stabText.GetComponent<Text>().text = "*Push!*";
+        }
+    }
+
     private IEnumerator MeleeAttack()
     {
+        SetAttackText("knife");
         knifeAttackHitbox.enabled = true;
         canThrowKnife = false;
         canMeleeAttack = false;
+        canShoveAttack = false;
         stabText.SetActive(true);
         anim.SetTrigger("Melee");
         yield return new WaitForSeconds((.5f * Time.timeScale));
@@ -127,15 +145,21 @@ public class Player : MonoBehaviour
 
     private IEnumerator ShoveAttack()
     {
+        SetAttackText("shove");
         canThrowKnife = false;
         canMeleeAttack = false;
+        canShoveAttack = false;
+        stabText.SetActive(true);
         //yield return new WaitForSeconds((.2f * Time.timeScale));
         shoveAttackHitBox.enabled = true;
         //Animator?????
         yield return new WaitForSeconds((.5f * Time.timeScale));
+        stabText.SetActive(false);
         shoveAttackHitBox.enabled = false;
-        canMeleeAttack = true;
+        canShoveAttack = true;
+        canThrowKnife = true;
     }
+
 
     /// <summary>
     /// Instances the throw knife and hides the hand knife
@@ -149,9 +173,10 @@ public class Player : MonoBehaviour
         knifeScript.isKnifeSwarmKnife = false;
         //newKnife.GetComponent<Knife>().StartCoroutine(WaitAfterThrow());
         newKnife.GetComponent<Rigidbody>().AddForce(knifeThrowPoint.transform.forward * (throwForce * (2 - Time.timeScale)));
-
+        canShoveAttack = true;
         canThrowKnife = false;
         canMeleeAttack = false;
+        hasKnife = false;
         anim.SetBool("Has Knife", false);
     }
 
@@ -169,8 +194,10 @@ public class Player : MonoBehaviour
     /// </summary>
     public void ThrowKnifeReset()
     {
+        hasKnife = true;
         canThrowKnife = true;
         canMeleeAttack = true;
+        canShoveAttack = false;
         handKnife.SetActive(true);
         anim.SetBool("Has Knife", true);
     }
@@ -184,6 +211,11 @@ public class Player : MonoBehaviour
         hasKnifeSwarm = true;
     }
 
+
+    public void GiveShovePower()
+    {
+        hasShoveAttack = true;
+    }
     /// <summary>
     /// Launches an AoE attack over a duration.
     /// </summary>
