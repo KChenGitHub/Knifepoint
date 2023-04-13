@@ -277,6 +277,7 @@ public class EnemyBase : MonoBehaviour
         {
             hasArmor = false;
             armorObjects.SetActive(false);
+            meshRend.enabled = true;
         }
 
         if (HP <= 0)
@@ -339,6 +340,7 @@ public class EnemyBase : MonoBehaviour
     {
         hasArmor = true;
         armorObjects.SetActive(true);
+        meshRend.enabled = false;
     }
 
     void OnDestroy()

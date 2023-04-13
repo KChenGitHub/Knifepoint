@@ -22,7 +22,7 @@ public class ProjectileEnemy : EnemyBase
 
         //fire
         GameObject projectile = Instantiate(projectilePrefab, attackPoint.transform.position, attackPoint.transform.rotation);
-        projectile.GetComponent<EnemyBullet>().dir = attackPoint.transform.forward;
+        projectile.GetComponent<EnemyBullet>().dir = attackPoint.transform.up;
         waitTimer = 0.0f;
         isWaiting = false;
         attackIndicator.SetActive(false);

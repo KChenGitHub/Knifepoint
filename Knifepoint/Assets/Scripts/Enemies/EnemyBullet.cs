@@ -15,7 +15,7 @@ public class EnemyBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += speed * Time.deltaTime * transform.up;
+        transform.position += speed * Time.deltaTime * dir;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -24,7 +24,10 @@ public class EnemyBullet : MonoBehaviour
         {
             player.TakeDamage(1);
         }
-
+        else if (collision.collider.TryGetComponent<EnemyBase>(out _))
+        {
+            return;
+        }
         Destroy(gameObject);
     }
 
