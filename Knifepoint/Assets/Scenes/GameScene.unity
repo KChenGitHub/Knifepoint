@@ -7267,14 +7267,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2102914272701953993, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4384076666502575562, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 450
-      objectReference: {fileID: 0}
     - target: {fileID: 6302878845787272007, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -7367,26 +7359,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7709880583004372606, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8116531083344081766, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1955010825}
-    - target: {fileID: 8116531083344081766, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RestartGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 8116531083344081766, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Main, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8116531083344081766, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf6cdf5614782174d9b02cb4bfe4cd8c, type: 3}
 --- !u!114 &1166307487 stripped
