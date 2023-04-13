@@ -12964,6 +12964,7 @@ MonoBehaviour:
   player: {fileID: 1926976739}
   targetEnemies: []
   enemyHolder: {fileID: 1834853476}
+  cleanEnemyListDelay: 5
   endGameText: {fileID: 1166307488}
   endGameSummaryText: {fileID: 1166307487}
   reticle: {fileID: 1090720598}

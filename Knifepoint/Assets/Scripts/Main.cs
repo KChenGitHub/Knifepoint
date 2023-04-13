@@ -19,6 +19,7 @@ public class Main : MonoBehaviour
     /// Empty GameObject in the level that all enemies are children of
     /// </summary>
     public GameObject enemyHolder;
+    [SerializeField] private float cleanEnemyListDelay;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI endGameText;
@@ -38,6 +39,8 @@ public class Main : MonoBehaviour
         CreateEnemyTargetList();
         ChangeTargetEnemyColors();
         GiveEnemiesArmor();
+        StartCoroutine(RemoveNullEnemies(cleanEnemyListDelay));
+
 
         //For if we restarted
         Time.timeScale = 1f;
@@ -130,12 +133,34 @@ public class Main : MonoBehaviour
         }
     }
 
+    private IEnumerator RemoveNullEnemies(float removeDelay)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(removeDelay);
+            RemoveNullsFromEnemyList();
+        }
+    }
+    private void RemoveNullsFromEnemyList()
+    {
+        Debug.Log("Clearing!");
+        for (int i = 0; i < targetEnemies.Count; i++)
+        {
+            if (!targetEnemies[i])
+            {
+                targetEnemies.RemoveAt(i);
+            }
+        }
+    }
+
+
     /// <summary>
     /// Sets the text boxes for when the game ends.
     /// </summary>
     /// <param name="didPlayerWin"></param>
     public void EndGame(bool didPlayerWin = false)
     {
+        StopAllCoroutines();
         Time.timeScale = 0;
         reticle.SetActive(false);
         endGameText.enabled = true;
