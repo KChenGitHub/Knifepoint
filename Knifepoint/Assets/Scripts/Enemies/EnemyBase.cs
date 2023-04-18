@@ -123,11 +123,15 @@ public class EnemyBase : MonoBehaviour
         {
             return;
         }
-        if (radarObject && radarObject.TryGetComponent<Player>(out Player player))
+        if (radarObject)
         {
-            navAgent.SetDestination(radarObject.transform.position);
-            targetObject = radarObject;
+            if (radarObject.TryGetComponent<Player>(out Player player))
+            {
+                navAgent.SetDestination(radarObject.transform.position);
+                targetObject = radarObject;
+            }
         }
+            
 
         if (IsTargetInRange())
         {
@@ -204,11 +208,22 @@ public class EnemyBase : MonoBehaviour
     /// "facing" the target (dot product = 1 when facing target)
     /// </summary>
     /// <returns></returns>
-    private bool IsFacingTarget()
+    private bool IsFacingTarget(GameObject target = null)
     {
-        if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= rotationThreshhold)
+        if (target == null)
         {
-            return true;
+            if (targetObject && Vector3.Dot(transform.forward, (targetObject.transform.position - transform.position).normalized) >= rotationThreshhold)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            float hazardRotationThreshhold = .8f;
+            if (Vector3.Dot(transform.forward, (target.transform.position - transform.position).normalized) >= hazardRotationThreshhold) 
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -225,6 +240,38 @@ public class EnemyBase : MonoBehaviour
         isWaiting = false;
         hasWaited = true;
     }
+
+    //private Hazards GetClosestHazard()
+    //{
+    //    Hazards[] hazList = FindObjectsOfType<Hazards>();
+    //    Hazards closestHazard = null;
+    //    float closestHazardDist = 0.0f;
+    //    foreach (Hazards haz in hazList)
+    //    {
+    //        if (!closestHazard)
+    //        {
+    //            closestHazard = haz;
+    //            closestHazardDist = Vector3.Distance(transform.position, haz.transform.position);
+    //            continue;
+    //        }
+    //        float distance = Vector3.Distance(transform.position, haz.transform.position);
+    //        if (distance < closestHazardDist)
+    //        {
+    //            closestHazard = haz;
+    //            closestHazardDist = distance;
+    //        }
+    //    }
+    //    return closestHazard;
+    //}
+    //private IEnumerator PauseNavAgentForDuration(float duration)
+    //{
+    //    if (navAgent)
+    //    {
+    //        navAgent.isStopped = true;
+    //        yield return new WaitForSeconds(duration);
+    //        navAgent.isStopped = false;
+    //    }
+    //}
 
     /// <summary>
     /// Sends out a raycast that moves in a circle around the enemy

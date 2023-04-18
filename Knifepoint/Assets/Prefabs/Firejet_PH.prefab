@@ -4824,6 +4824,7 @@ GameObject:
   - component: {fileID: 4574400033897924704}
   - component: {fileID: 4150152785797425048}
   - component: {fileID: 1254830175699195849}
+  - component: {fileID: 268310923401273127}
   m_Layer: 0
   m_Name: Firejet_PH
   m_TagString: Untagged
@@ -4863,6 +4864,7 @@ MonoBehaviour:
   hazardDamage: 1
   timeBetweenDamageTicks: 1
   damageTimer: 0
+  navObstacle: {fileID: 268310923401273127}
   firePS: {fileID: 2220914421640084294}
   guyserCollider: {fileID: 1254830175699195849}
   fenceCollider: {fileID: 0}
@@ -4883,6 +4885,22 @@ CapsuleCollider:
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
+--- !u!208 &268310923401273127
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7809544587742851902}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1, y: 5, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5215334292957844637
 PrefabInstance:
   m_ObjectHideFlags: 0

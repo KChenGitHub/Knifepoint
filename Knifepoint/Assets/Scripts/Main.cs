@@ -143,7 +143,6 @@ public class Main : MonoBehaviour
     }
     private void RemoveNullsFromEnemyList()
     {
-        Debug.Log("Clearing!");
         for (int i = 0; i < targetEnemies.Count; i++)
         {
             if (!targetEnemies[i])

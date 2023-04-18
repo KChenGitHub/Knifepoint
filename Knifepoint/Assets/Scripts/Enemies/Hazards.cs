@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Hazards : MonoBehaviour
 {
     public int hazardDamage;
     public float timeBetweenDamageTicks;
     public float damageTimer;
-    
+    public NavMeshObstacle navObstacle;
     
 
     //fire guyser
@@ -43,20 +44,23 @@ public class Hazards : MonoBehaviour
 
     private IEnumerator GuyserCycle(float particleSysTime, float guyserDelay)
     {
-        if (!firePS || !guyserCollider)
+        if (!firePS || !guyserCollider || !navObstacle)
         {
-            Debug.LogWarning("Fire Guyser missing either fire particle system or guyser collider!");
+            Debug.LogWarning("Fire Guyser missing either fire particle system or guyser collider or nav obstacle!");
             yield return null;
         }
         guyserCollider.enabled = false;
+        navObstacle.enabled = false;
         yield return new WaitForSeconds(guyserDelay);
         while (true)
         {
             firePS.Play();
             yield return new WaitForSeconds(.05f);
             guyserCollider.enabled = true;
+            navObstacle.enabled = true;
             yield return new WaitForSeconds(particleSysTime);
             guyserCollider.enabled = false;
+            navObstacle.enabled = false;
             yield return new WaitForSeconds(guyserDelay);
             
         }
@@ -64,24 +68,27 @@ public class Hazards : MonoBehaviour
 
     private IEnumerator FenceCycle(float activeTime, float delayTime)
     {
-        if (!fencePlaneOne || !fencePlaneTwo || !fenceCollider)
+        if (!fencePlaneOne || !fencePlaneTwo || !fenceCollider || navObstacle)
         {
-            Debug.LogWarning("Electric fence is missing at least once fencePlane or collider!");
+            Debug.LogWarning("Electric fence is missing at least once fencePlane or collider or nav obstacle!");
             yield return null;
         }
         fencePlaneOne.SetActive(false);
         fencePlaneTwo.SetActive(false);
         fenceCollider.enabled = false;
+        navObstacle.enabled = false;
         yield return new WaitForSeconds(delayTime);
         while (true)
         {
             fencePlaneOne.SetActive(true);
             fencePlaneTwo.SetActive(true);
             fenceCollider.enabled = true;
+            navObstacle.enabled = true;
             yield return new WaitForSeconds(activeTime);
             fencePlaneOne.SetActive(false);
             fencePlaneTwo.SetActive(false);
             fenceCollider.enabled = false;
+            navObstacle.enabled = false;
             yield return new WaitForSeconds(delayTime);
         }
 
