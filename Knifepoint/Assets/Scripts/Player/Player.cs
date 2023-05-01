@@ -89,6 +89,12 @@ public class Player : MonoBehaviour
                 
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Vector3 shovedDir = Vector3.zero;
+            GetShoved(shovedDir);
+        }
     }
 
     private void SetMovementAnims()
@@ -274,6 +280,18 @@ public class Player : MonoBehaviour
             playerHand.SetActive(false);
             main.EndGame();
         }
+    }
+
+    /// <summary>
+    /// Knocks the player back from the front? Will be used by shove enemies.
+    /// Maybe find a way to influence the direction of the enemy.
+    /// </summary>
+    /// <param name="shoveForce"></param>
+    public void GetShoved(Vector3 shoveDir)
+    {
+        Debug.DrawLine(transform.position, shoveDir, Color.yellow, 5.0f);
+        FPSController.shoveDir = transform.position - shoveDir;
+        FPSController.isShoved = true;
     }
 
     /// <summary>

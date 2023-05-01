@@ -60,6 +60,7 @@ public class Main : MonoBehaviour
         foreach (EnemyBase enem in enemyHolder.GetComponentsInChildren<EnemyBase>())
         {
             enem.SetMain(this);
+            enem.player = player;
         }
     }
 

@@ -40,6 +40,7 @@ public class EnemyBase : MonoBehaviour
     //private const float MAXRADARANGLE = 70.0f; //Used if we want a more narrow radar angle
 
     [Header("Attacks")]
+    [SerializeField] public Player player;
     [SerializeField] protected float attackRate;
     [SerializeField] protected float attackRange;
     [SerializeField] protected GameObject targetObject;
@@ -50,7 +51,7 @@ public class EnemyBase : MonoBehaviour
     /// Higher for the projectile enemy because they actually have to aim in a straight line.
     /// </summary>
     [SerializeField] private float rotationThreshhold;
-    public enum enemyType { racyast, projectile }
+    public enum enemyType { racyast, projectile, shove }
     public enemyType type;
     
     
@@ -95,11 +96,11 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void SetRotationThreshhold()
     {
-        if (type == enemyType.racyast)
+        if (type == enemyType.projectile || type == enemyType.shove)
         {
             rotationThreshhold = .998f;
         }
-        else if (type == enemyType.projectile)
+        else if (type == enemyType.racyast)
         {
             rotationThreshhold = .99998f;
         }

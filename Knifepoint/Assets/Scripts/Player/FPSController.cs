@@ -14,6 +14,12 @@ public class FPSController : MonoBehaviour
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
 
+    //Shove
+    public bool isShoved = false; //Set from player
+    public Vector3 shoveDir; //Set from player
+    public float shoveHeight = 12.0f;
+    public float shoveSpeed = 15.0f;
+
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -51,6 +57,18 @@ public class FPSController : MonoBehaviour
             moveDirection.y = movementDirectionY;
         }
 
+        if (isShoved)
+        {
+            if (characterController.isGrounded)
+            {
+                moveDirection.y = shoveHeight;
+            }
+            StartCoroutine(ResetShove());
+            moveDirection = shoveDir.normalized * shoveSpeed;
+        }
+        
+
+
         // Apply gravity.
         if (!characterController.isGrounded)
         {
@@ -68,5 +86,12 @@ public class FPSController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+
+    private IEnumerator ResetShove(float delay = .2f)
+    {
+        yield return new WaitForSeconds(delay);
+        isShoved = false;
+        moveDirection = Vector3.zero;
     }
 }
