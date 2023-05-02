@@ -18,7 +18,7 @@ public class FPSController : MonoBehaviour
     public bool isShoved = false; //Set from player
     public Vector3 shoveDir; //Set from player
     public float shoveHeight = 12.0f;
-    public float shoveSpeed = 15.0f;
+    public float shoveSpeed = 75.0f;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;

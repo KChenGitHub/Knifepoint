@@ -139,7 +139,7 @@ public class EnemyBase : MonoBehaviour
             navAgent.speed = 0;
             if (!isWaiting && IsFacingTarget())
             {
-                
+                Debug.Log(Vector3.Distance(transform.position, player.transform.position));
                 isWaiting = true;
                 hasWaited = false;
                 StartCoroutine(FireWeapon());

@@ -739,8 +739,8 @@ MonoBehaviour:
   radarObject: {fileID: 0}
   radarAngle: 0
   player: {fileID: 0}
-  attackRate: 3
-  attackRange: 10
+  attackRate: 2
+  attackRange: 4
   targetObject: {fileID: 0}
   attackPoint: {fileID: 0}
   rotationThreshhold: 0

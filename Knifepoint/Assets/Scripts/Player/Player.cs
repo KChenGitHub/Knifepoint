@@ -291,6 +291,8 @@ public class Player : MonoBehaviour
     {
         Debug.DrawLine(transform.position, shoveDir, Color.yellow, 5.0f);
         FPSController.shoveDir = transform.position - shoveDir;
+        Debug.Log("Player y: " + transform.position.y);
+        Debug.Log("Enemy y: " + shoveDir.y);
         FPSController.isShoved = true;
     }
 

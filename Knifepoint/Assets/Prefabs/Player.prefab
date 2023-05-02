@@ -213,17 +213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83989d312ffe45346bd3fea28d366d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 7.5
-  runningSpeed: 11.5
-  jumpSpeed: 8
-  gravity: 10
+  walkingSpeed: 17
+  runningSpeed: 25
+  jumpSpeed: 16
+  gravity: 25
   playerCamera: {fileID: 0}
   lookSpeed: 2
   lookXLimit: 45
   isShoved: 0
   shoveDir: {x: 0, y: 0, z: 0}
-  shoveHeight: 10
-  shoveSpeed: 40
+  shoveHeight: 12
+  shoveSpeed: 75
   canMove: 1
 --- !u!114 &3395340027148428236
 MonoBehaviour:
