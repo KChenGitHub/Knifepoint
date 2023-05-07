@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private BoxCollider knifeAttackHitbox;
     [SerializeField] private BoxCollider shoveAttackHitBox;
-    [SerializeField] private GameObject stabText;
+    //[SerializeField] private GameObject stabText;
     private bool canMeleeAttack;
     [SerializeField] private bool hasKnifeSwarm;
     [SerializeField] private float knifeSwarmDuration;
@@ -120,47 +120,47 @@ public class Player : MonoBehaviour
 
     #region Attacks
 
-    private void SetAttackText(string attackType)
-    {
-        if (attackType == "knife")
-        {
-            stabText.GetComponent<Text>().text = "*Stab!*";
-        }
-        else if (attackType == "shove")
-        {
-            stabText.GetComponent<Text>().text = "*Push!*";
-        }
-    }
+    //private void SetAttackText(string attackType)
+    //{
+    //    if (attackType == "knife")
+    //    {
+    //        //stabText.GetComponent<Text>().text = "*Stab!*";
+    //    }
+    //    else if (attackType == "shove")
+    //    {
+    //        //stabText.GetComponent<Text>().text = "*Push!*";
+    //    }
+    //}
 
     private IEnumerator MeleeAttack()
     {
-        SetAttackText("knife");
+        //SetAttackText("knife");
         knifeAttackHitbox.enabled = true;
         canThrowKnife = false;
         canMeleeAttack = false;
         canShoveAttack = false;
-        stabText.SetActive(true);
+        //stabText.SetActive(true);
         anim.SetTrigger("Melee");
         yield return new WaitForSeconds((.5f * Time.timeScale));
         knifeAttackHitbox.enabled = false;
         canThrowKnife = true;
         canMeleeAttack = true;
-        stabText.SetActive(false);
+        //stabText.SetActive(false);
         StartCoroutine(ResetAnimations());
     }
 
     private IEnumerator ShoveAttack()
     {
-        SetAttackText("shove");
+        //SetAttackText("shove");
         canThrowKnife = false;
         canMeleeAttack = false;
         canShoveAttack = false;
-        stabText.SetActive(true);
+        //stabText.SetActive(true);
         //yield return new WaitForSeconds((.2f * Time.timeScale));
         shoveAttackHitBox.enabled = true;
         //Animator?????
         yield return new WaitForSeconds((.5f * Time.timeScale));
-        stabText.SetActive(false);
+        //stabText.SetActive(false);
         shoveAttackHitBox.enabled = false;
         canShoveAttack = true;
         canThrowKnife = true;

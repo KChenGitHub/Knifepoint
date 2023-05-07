@@ -9,19 +9,19 @@ public class Hazards : MonoBehaviour
     public float timeBetweenDamageTicks;
     public float damageTimer;
     public NavMeshObstacle navObstacle;
-    
+    public ParticleSystem startupParticles, activeParticles, startupParticles2, activeParticles2;
 
     //fire guyser
-    public ParticleSystem firePS;
     public CapsuleCollider guyserCollider;
-    private float particleSystemPlaybackTime = 3.3f;
+    private float particleSystemPlaybackTime = 3.0f;
     private float fireGuyserDelayTime = 5.0f;
 
     //electro fence
     public BoxCollider fenceCollider;
-    public GameObject fencePlaneOne, fencePlaneTwo;
-    private float electroFenceActiveTime = 4.0f;
-    private float electroFenceDelayTime = 6.0f;
+    private float electroFenceActiveTime = 2.5f;
+    private float electroFenceDelayTime = 2.5f;
+    
+
 
     public enum hazardType { acidPit, fireGuyser, electroFence }
     public hazardType type;
@@ -44,18 +44,23 @@ public class Hazards : MonoBehaviour
 
     private IEnumerator GuyserCycle(float particleSysTime, float guyserDelay)
     {
-        if (!firePS || !guyserCollider || !navObstacle)
+        if (!activeParticles || !startupParticles || !guyserCollider || !navObstacle)
         {
-            Debug.LogWarning("Fire Guyser missing either fire particle system or guyser collider or nav obstacle!");
-            yield return null;
+            Debug.LogWarning("Fire Guyser missing a component!");
+            yield break;
         }
         guyserCollider.enabled = false;
         navObstacle.enabled = false;
         yield return new WaitForSeconds(guyserDelay);
+
         while (true)
         {
-            firePS.Play();
-            yield return new WaitForSeconds(.05f);
+            //Startup
+            startupParticles.Play();
+            yield return new WaitForSeconds(3f);
+
+            //Particles
+            activeParticles.Play();
             guyserCollider.enabled = true;
             navObstacle.enabled = true;
             yield return new WaitForSeconds(particleSysTime);
@@ -68,25 +73,29 @@ public class Hazards : MonoBehaviour
 
     private IEnumerator FenceCycle(float activeTime, float delayTime)
     {
-        if (!fencePlaneOne || !fencePlaneTwo || !fenceCollider || navObstacle)
+        if (!activeParticles || !activeParticles2 || !startupParticles || !startupParticles2 || !fenceCollider || !navObstacle)
         {
-            Debug.LogWarning("Electric fence is missing at least once fencePlane or collider or nav obstacle!");
-            yield return null;
+            Debug.LogWarning("Electric fence is missing a component!");
+            yield break;
         }
-        fencePlaneOne.SetActive(false);
-        fencePlaneTwo.SetActive(false);
         fenceCollider.enabled = false;
         navObstacle.enabled = false;
         yield return new WaitForSeconds(delayTime);
         while (true)
         {
-            fencePlaneOne.SetActive(true);
-            fencePlaneTwo.SetActive(true);
+            //Startup
+            startupParticles.Play();
+            startupParticles2.Play();
+            yield return new WaitForSeconds(3f);
+
+            //Active Particles
+            activeParticles.Play();
+            activeParticles2.Play();
             fenceCollider.enabled = true;
             navObstacle.enabled = true;
             yield return new WaitForSeconds(activeTime);
-            fencePlaneOne.SetActive(false);
-            fencePlaneTwo.SetActive(false);
+            activeParticles.Stop();
+            activeParticles2.Stop();
             fenceCollider.enabled = false;
             navObstacle.enabled = false;
             yield return new WaitForSeconds(delayTime);
