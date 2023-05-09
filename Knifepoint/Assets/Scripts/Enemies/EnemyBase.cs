@@ -11,6 +11,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Health")]
     public int HP = 2;
     public bool hasArmor = false;
+    [SerializeField] private GameObject unarmoredMesh;
     [SerializeField] private GameObject armorObjects;
 
     [Header("Materials")]
@@ -53,7 +54,9 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float rotationThreshhold;
     public enum enemyType { racyast, projectile, shove }
     public enemyType type;
-    
+
+    [Header("Animation")]
+    [SerializeField] private Animator anim;
     
     // Start is called before the first frame update
     void Start()
@@ -63,6 +66,8 @@ public class EnemyBase : MonoBehaviour
         navAgent.isStopped = false;
         currPath = new NavMeshPath();
         SetRotationThreshhold();
+        anim = GetComponent<Animator>();
+        anim.enabled = true;
     }
 
     // Update is called once per frame
@@ -71,6 +76,11 @@ public class EnemyBase : MonoBehaviour
         //Radar
         Radar();
         Navigation();
+        if (isWaiting)
+        {
+            anim.SetBool("Armature|Rifle_Move", true);
+            Debug.Log("oogie");
+        }
     }
 
     #region References and Materials
@@ -153,6 +163,8 @@ public class EnemyBase : MonoBehaviour
 
         navAgent.speed = speed; //Reset speed if the enemy isn't close to its target
         //Checks if the enemy is close to its destination
+
+        
         if (navAgent.remainingDistance <= stoppingDist)
         {
             //We use the bools hasWaited and isWaiting for the wait timer.
@@ -325,6 +337,7 @@ public class EnemyBase : MonoBehaviour
         {
             hasArmor = false;
             armorObjects.SetActive(false);
+            unarmoredMesh.SetActive(true);
             meshRend.enabled = true;
         }
 
@@ -387,6 +400,7 @@ public class EnemyBase : MonoBehaviour
     public void GrantArmor()
     {
         hasArmor = true;
+        unarmoredMesh.SetActive(false);
         armorObjects.SetActive(true);
         meshRend.enabled = false;
     }
